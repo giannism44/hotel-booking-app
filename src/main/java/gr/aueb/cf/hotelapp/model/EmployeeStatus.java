@@ -24,4 +24,9 @@ public class EmployeeStatus {
 
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
 }

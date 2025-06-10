@@ -27,4 +27,16 @@ public class Reservation extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReservationStatus status;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by_user_id")
+    private User createdBy;
 }

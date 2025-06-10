@@ -19,4 +19,9 @@ public class ClientStatus {
 
     @Column(name = "discount_active")
     private boolean discountActive;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "client_id")
+    private Client client;
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,4 +32,7 @@ public class Room extends AbstractEntity{
 
     @Column(name = "is_available")
     private Boolean isAvailable;
+
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservations;
 }

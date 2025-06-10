@@ -17,6 +17,14 @@ public class Employee extends AbstractEntity{
     @Id
     private Long id;
 
+    @Column(nullable = false)
     private String firstname;
+
+    @Column(nullable = false)
     private String lastname;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 }
