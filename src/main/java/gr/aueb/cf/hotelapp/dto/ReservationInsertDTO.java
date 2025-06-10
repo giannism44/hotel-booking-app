@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record ReservationRequestDTO(
+public record ReservationInsertDTO(
         @NotNull(message = "Η ημερομηνία check-in είναι υποχρεωτική")
         @Future(message = "Η ημερομηνία check-in πρέπει να είναι στο μέλλον")
         LocalDate checkIn,
