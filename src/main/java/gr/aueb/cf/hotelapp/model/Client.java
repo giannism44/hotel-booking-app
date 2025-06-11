@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name = "clients")
 public class Client extends AbstractEntity {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -32,8 +33,7 @@ public class Client extends AbstractEntity {
     private String vat;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToOne(mappedBy = "client")

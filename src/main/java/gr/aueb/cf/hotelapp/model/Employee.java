@@ -14,6 +14,7 @@ import lombok.Setter;
 @Table(name = "employees")
 public class Employee extends AbstractEntity{
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -24,7 +25,6 @@ public class Employee extends AbstractEntity{
     private String lastname;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 }
