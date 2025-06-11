@@ -4,6 +4,8 @@ import gr.aueb.cf.hotelapp.core.enums.RoomType;
 import jakarta.validation.constraints.*;
 
 public record RoomUpdateDTO(
+        Long id,
+
         @NotNull(message = "Ο τύπος δωματίου είναι υποχρεωτικός")
         RoomType roomType,
 

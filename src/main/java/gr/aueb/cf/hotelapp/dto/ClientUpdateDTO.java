@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
 public record ClientUpdateDTO(
+        Long id,
+
         @NotEmpty(message = "Το όνομα είναι υποχρεωτικό")
         String firstname,
 
