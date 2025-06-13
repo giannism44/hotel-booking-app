@@ -33,11 +33,8 @@ public class User extends AbstractEntity{
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Client client;
-
     @OneToOne(mappedBy = "user")
-    private EmployeeStatus employeeStatus;
+    private Client client;
 
     @OneToMany(mappedBy = "createdBy")
     private List<Reservation> reservationsCreated;
