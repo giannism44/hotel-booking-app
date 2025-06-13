@@ -36,7 +36,7 @@ public class Client extends AbstractEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "client")
+    @OneToOne(mappedBy = "client",  cascade = CascadeType.ALL)
     private ClientStatus clientStatus;
 
     @OneToMany(mappedBy = "client")
