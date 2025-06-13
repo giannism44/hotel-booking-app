@@ -32,7 +32,7 @@ public class ReservationMapper {
         reservation.setRoom(room);
         reservation.setClient(client);
         reservation.setCreatedBy(createdBy);
-        reservation.setStatus(ReservationStatus.PENDING);
+        reservation.setStatus(ReservationStatus.CONFIRMED);
         return reservation;
     }
 }
