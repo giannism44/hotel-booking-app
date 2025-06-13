@@ -1,6 +1,5 @@
 package gr.aueb.cf.hotelapp.mapper;
 
-import gr.aueb.cf.hotelapp.dto.RoomInsertDTO;
 import gr.aueb.cf.hotelapp.dto.RoomReadOnlyDTO;
 import gr.aueb.cf.hotelapp.dto.RoomUpdateDTO;
 import gr.aueb.cf.hotelapp.model.Room;
@@ -17,15 +16,6 @@ public class RoomMapper {
                 room.getPrice(),
                 room.getIsAvailable()
         );
-    }
-
-    public Room mapToRoomEntity(RoomInsertDTO dto) {
-        Room room = new Room();
-        room.setRoomNumber(dto.roomNumber());
-        room.setRoomType(dto.roomType());
-        room.setPrice(dto.price());
-        room.setIsAvailable(dto.isAvailable());
-        return room;
     }
 
     public Room mapToRoomEntity(RoomUpdateDTO dto) {

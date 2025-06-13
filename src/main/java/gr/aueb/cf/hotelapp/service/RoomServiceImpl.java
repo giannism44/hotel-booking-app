@@ -1,14 +1,11 @@
 package gr.aueb.cf.hotelapp.service;
 
 import gr.aueb.cf.hotelapp.core.exceptions.RoomNotFoundException;
-import gr.aueb.cf.hotelapp.core.exceptions.RoomNumberAlreadyExistsException;
-import gr.aueb.cf.hotelapp.dto.RoomInsertDTO;
 import gr.aueb.cf.hotelapp.dto.RoomReadOnlyDTO;
 import gr.aueb.cf.hotelapp.dto.RoomUpdateDTO;
 import gr.aueb.cf.hotelapp.mapper.RoomMapper;
 import gr.aueb.cf.hotelapp.model.Room;
 import gr.aueb.cf.hotelapp.repository.RoomRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +17,6 @@ public class RoomServiceImpl implements IRoomService {
 
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
-
-    @Override
-    @Transactional(rollbackOn = Exception.class)
-    public RoomReadOnlyDTO insertRoom(RoomInsertDTO dto)
-            throws RoomNumberAlreadyExistsException {
-
-        if (roomRepository.findByRoomNumber(dto.roomNumber()).isPresent()) {
-            throw new RoomNumberAlreadyExistsException("Room", "Το δωμάτιο με αριθμό " + dto.roomNumber() + " υπάρχει ήδη");
-        }
-
-        Room room = roomMapper.mapToRoomEntity(dto);
-        Room savedRoom = roomRepository.save(room);
-
-        return roomMapper.mapToRoomReadOnlyDTO(savedRoom);
-    }
 
     @Override
     public RoomReadOnlyDTO updateRoom(RoomUpdateDTO dto)
