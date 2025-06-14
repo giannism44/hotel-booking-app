@@ -19,11 +19,11 @@ public class ClientMapper {
     public ClientReadOnlyDTO mapToClientReadOnlyDTO(Client client) {
         return new ClientReadOnlyDTO(
                 client.getId(),
+                client.getUser().getUsername(),
                 client.getFirstname(),
                 client.getLastname(),
                 client.getPhone(),
-                client.getVat(),
-                client.getUser().getUsername()
+                client.getVat()
         );
     }
 
