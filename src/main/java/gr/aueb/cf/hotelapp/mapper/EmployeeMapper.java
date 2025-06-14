@@ -2,7 +2,6 @@ package gr.aueb.cf.hotelapp.mapper;
 
 import gr.aueb.cf.hotelapp.core.enums.Role;
 import gr.aueb.cf.hotelapp.dto.*;
-import gr.aueb.cf.hotelapp.model.Client;
 import gr.aueb.cf.hotelapp.model.Employee;
 import gr.aueb.cf.hotelapp.model.User;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +17,9 @@ public class EmployeeMapper {
     public EmployeeReadOnlyDTO mapToEmployeeReadOnlyDTO(Employee employee) {
         return new EmployeeReadOnlyDTO(
                 employee.getId(),
+                employee.getUser().getUsername(),
                 employee.getFirstname(),
-                employee.getLastname(),
-                employee.getUser().getUsername()
+                employee.getLastname()
         );
     }
 
