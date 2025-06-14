@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class EmployeeStatus {
 
     @Id
-    private Long userId;
+    private Long employeeId;
 
     @Column(name = "total_bookings")
     private int totalBookings;
