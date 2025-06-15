@@ -13,7 +13,7 @@ public class RoomDataLoader {
 
     private final RoomRepository roomRepository;
 
-    //@PostConstruct
+    @PostConstruct
     public void initRooms() {
         for (int floor = 1; floor <= 5; floor++) {
             for (int roomNum = 1; roomNum <= 10; roomNum++) {
