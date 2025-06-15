@@ -195,4 +195,37 @@ public class EmployeeServiceTest {
         employeeRepository.deleteById(savedEmployee.id());
         userRepository.findByUsername("getall@example.com").ifPresent(user -> userRepository.delete(user));
     }
+
+    @Test
+    public void insertEmployee_throwsExceptionIfUsernameExists() throws Exception {
+        String duplicateUsername = "dupe@example.com";
+        
+        EmployeeInsertDTO firstDTO = new EmployeeInsertDTO(
+                duplicateUsername,
+                "Password1!",
+                "Nikos",
+                "Koutras"
+        );
+        employeeService.insertEmployee(firstDTO);
+
+        EmployeeInsertDTO secondDTO = new EmployeeInsertDTO(
+                duplicateUsername,
+                "Password1!",
+                "Eleni",
+                "Georgiou"
+        );
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            employeeService.insertEmployee(secondDTO);
+        });
+
+        assertTrue(exception.getMessage().toLowerCase().contains("υπάρχει ήδη"));
+
+        userRepository.findByUsername(duplicateUsername).ifPresent(user -> userRepository.delete(user));
+        employeeRepository.findAll().stream()
+                .filter(e -> e.getUser().getUsername().equals(duplicateUsername))
+                .findFirst()
+                .ifPresent(e -> employeeRepository.deleteById(e.getId()));
+    }
+
 }
