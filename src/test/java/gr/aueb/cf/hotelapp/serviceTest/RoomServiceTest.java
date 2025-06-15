@@ -1,5 +1,6 @@
-package gr.aueb.cf.hotelapp;
+package gr.aueb.cf.hotelapp.serviceTest;
 
+import gr.aueb.cf.hotelapp.HotelBookingSystemApplication;
 import gr.aueb.cf.hotelapp.core.exceptions.RoomNotFoundException;
 import gr.aueb.cf.hotelapp.dto.RoomReadOnlyDTO;
 import gr.aueb.cf.hotelapp.dto.RoomUpdateDTO;

@@ -1,5 +1,6 @@
-package gr.aueb.cf.hotelapp;
+package gr.aueb.cf.hotelapp.serviceTest;
 
+import gr.aueb.cf.hotelapp.HotelBookingSystemApplication;
 import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
 import gr.aueb.cf.hotelapp.dto.ClientReadOnlyDTO;
 import gr.aueb.cf.hotelapp.dto.ClientUpdateDTO;

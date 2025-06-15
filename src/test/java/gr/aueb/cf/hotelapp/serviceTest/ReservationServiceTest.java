@@ -1,5 +1,6 @@
-package gr.aueb.cf.hotelapp;
+package gr.aueb.cf.hotelapp.serviceTest;
 
+import gr.aueb.cf.hotelapp.HotelBookingSystemApplication;
 import gr.aueb.cf.hotelapp.core.enums.ReservationStatus;
 import gr.aueb.cf.hotelapp.core.enums.Role;
 import gr.aueb.cf.hotelapp.core.enums.RoomType;

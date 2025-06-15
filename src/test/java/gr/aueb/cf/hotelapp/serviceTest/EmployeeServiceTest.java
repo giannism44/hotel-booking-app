@@ -1,5 +1,6 @@
-package gr.aueb.cf.hotelapp;
+package gr.aueb.cf.hotelapp.serviceTest;
 
+import gr.aueb.cf.hotelapp.HotelBookingSystemApplication;
 import gr.aueb.cf.hotelapp.core.exceptions.EmployeeNotFoundException;
 import gr.aueb.cf.hotelapp.dto.EmployeeInsertDTO;
 import gr.aueb.cf.hotelapp.dto.EmployeeReadOnlyDTO;
