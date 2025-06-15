@@ -119,4 +119,84 @@ public class ClientServiceTest {
         assertNotNull(clients);
         assertTrue(clients.size() >= 1);
     }
+
+    @Test
+    public void insertClient_throwsExceptionIfUsernameExists() {
+        ClientInsertDTO duplicateDTO = new ClientInsertDTO(
+                insertedClient.username(), // Ίδιο username (email)
+                "Password1!",
+                "Giorgos",
+                "Ioannou",
+                "6988888888",
+                "111222333"
+        );
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            clientService.insertClient(duplicateDTO);
+        });
+
+        assertTrue(exception.getMessage().toLowerCase().contains("υπάρχει ήδη"));
+    }
+
+    @Test
+    public void insertClient_throwsExceptionIfVatExists() {
+        ClientInsertDTO duplicateDTO = new ClientInsertDTO(
+                "newuser_" + UUID.randomUUID() + "@example.com", // νέο email
+                "Password1!",
+                "Giorgos",
+                "Ioannou",
+                "6988888888",
+                insertedClient.vat() // Ίδιο VAT
+        );
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            clientService.insertClient(duplicateDTO);
+        });
+
+        assertTrue(exception.getMessage().toLowerCase().contains("υπάρχει ήδη"));
+    }
+
+    @Test
+    public void updateClient_throwsExceptionIfVatAlreadyExistsForAnotherClient() throws Exception {
+        // Δημιουργούμε 2ο client
+        ClientInsertDTO secondDto = new ClientInsertDTO(
+                "second_" + UUID.randomUUID() + "@example.com",
+                "Password1!",
+                "Nikos",
+                "Koutras",
+                "6977777777",
+                "123123123"
+        );
+        ClientReadOnlyDTO secondClient = clientService.insertClient(secondDto);
+
+        // Προσπαθούμε να του κάνουμε update το VAT ώστε να είναι ίδιο με το 1ου
+        ClientUpdateDTO updateDTO = new ClientUpdateDTO(
+                secondClient.id(),
+                secondClient.firstname(),
+                secondClient.lastname(),
+                secondClient.phone(),
+                insertedClient.vat() // Ίδιο VAT με 1ο client
+        );
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            clientService.updateClient(updateDTO);
+        });
+
+        assertTrue(exception.getMessage().toLowerCase().contains("υπάρχει ήδη"));
+
+        // καθαρισμός
+        clientService.deleteClient(secondClient.id());
+        userRepository.findByUsername(secondClient.username()).ifPresent(userRepository::delete);
+    }
+
+    @Test
+    public void deleteClient_throwsExceptionIfNotFound() {
+        Exception exception = assertThrows(Exception.class, () -> {
+            clientService.deleteClient(999999L);
+        });
+
+        assertTrue(exception.getMessage().toLowerCase().contains("δεν βρέθηκε"));
+    }
+
+
 }
