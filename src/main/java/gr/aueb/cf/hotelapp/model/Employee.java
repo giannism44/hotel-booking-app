@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Η οντότητα Employee αναπαριστά έναν υπάλληλο του ξενοδοχείου.
+ * Κάθε υπάλληλος έχει προσωπικά στοιχεία, έναν λογαριασμό σύνδεσης (User),
+ * και μια καταγραφή για την κατάσταση επιβράβευσης (EmployeeStatus).
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
