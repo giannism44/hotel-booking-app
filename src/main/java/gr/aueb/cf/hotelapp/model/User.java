@@ -13,6 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Η οντότητα User αναπαριστά τον χρήστη του συστήματος (login account).
+ * Περιλαμβάνει στοιχεία σύνδεσης (username, password) και ρόλο (CLIENT ή EMPLOYEE).
+ * Συνδέεται με έναν Client ή έναν Employee και χρησιμοποιείται από το Spring Security.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
