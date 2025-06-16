@@ -8,6 +8,11 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Η οντότητα Client αναπαριστά έναν πελάτη του ξενοδοχείου.
+ * Κάθε πελάτης έχει στοιχεία επικοινωνίας, έναν λογαριασμό σύνδεσης (User),
+ * μια κατάσταση επιβράβευσης (ClientStatus) και λίστα από κρατήσεις.
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
