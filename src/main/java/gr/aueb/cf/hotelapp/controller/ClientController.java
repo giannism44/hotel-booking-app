@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/hotel")
 @RequiredArgsConstructor
@@ -84,5 +86,32 @@ public class ClientController {
             model.addAttribute("errorMessage", e.getMessage());
             return "client-form";
         }
+    }
+
+    @GetMapping("/clients")
+    public String getAllClients(Model model) {
+        List<ClientReadOnlyDTO> clients = clientService.getAllClients();
+        model.addAttribute("clients", clients);
+        return "client-list";
+    }
+
+    @GetMapping("/clients/delete/{id}")
+    public String deleteClient(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            clientService.deleteClient(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Ο πελάτης διαγράφηκε με επιτυχία.");
+        } catch (ClientNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/hotel/clients";
+    }
+
+    @GetMapping("/clients/{id}")
+    public String getClientById(@PathVariable Long id, Model model)
+            throws ClientNotFoundException {
+
+        ClientReadOnlyDTO client = clientService.getClientById(id);
+        model.addAttribute("client", client);
+        return "client-details";
     }
 }
