@@ -46,7 +46,7 @@ public class ClientController {
             return "redirect:/hotel/clients";
         } catch (UsernameAlreadyExistsException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "client-insert";
+            return "client-form";
         }
     }
 
