@@ -49,4 +49,40 @@ public class ClientController {
             return "client-insert";
         }
     }
+
+    @GetMapping("/clients/update/{id}")
+    public String getUpdateClientForm(@PathVariable Long id, Model model) throws ClientNotFoundException {
+        ClientReadOnlyDTO readOnlyDTO = clientService.getClientById(id);
+
+        ClientUpdateDTO updateDTO = new ClientUpdateDTO(
+                readOnlyDTO.id(),
+                readOnlyDTO.firstname(),
+                readOnlyDTO.lastname(),
+                readOnlyDTO.phone(),
+                readOnlyDTO.vat()
+        );
+
+        model.addAttribute("clientUpdateDTO", updateDTO);
+        return "client-form";
+    }
+
+    @PostMapping("/clients/update")
+    public String updateClient(@Valid @ModelAttribute("clientUpdateDTO") ClientUpdateDTO  clientUpdateDTO,
+                               BindingResult bindingResult,
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "client-form";
+        }
+
+        try{
+            ClientReadOnlyDTO updateClient =  clientService.updateClient(clientUpdateDTO);
+            redirectAttributes.addFlashAttribute("client", updateClient);
+            return "redirect:/hotel/clients";
+        }catch (UsernameAlreadyExistsException | ClientNotFoundException e){
+            model.addAttribute("errorMessage", e.getMessage());
+            return "client-form";
+        }
+    }
 }
