@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,10 +17,11 @@ public class SecurityConfig {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/index.html", "/login", "/public/**").permitAll()
-                        .requestMatchers("/api/clients/**").hasAuthority("ROLE_CLIENT")
-                        .requestMatchers("/api/employees/**").hasAuthority("ROLE_EMPLOYEE")
+                        .requestMatchers("/hotel/clients/insert", "/hotel/clients/insert/**").permitAll()
+                        .requestMatchers("/hotel/clients/**").hasAuthority("ROLE_CLIENT")
+                        .requestMatchers("/hotel/employees/**").hasAuthority("ROLE_EMPLOYEE")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -40,8 +39,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }
