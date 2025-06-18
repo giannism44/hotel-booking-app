@@ -103,6 +103,7 @@ public class EmployeeController {
         return "redirect:/hotel/employees";
     }
 
+    @GetMapping("/{id}")
     public String getEmployeeById(@PathVariable Long id, Model model)
             throws EmployeeNotFoundException{
 
