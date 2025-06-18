@@ -13,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/hotel/employees")
 @RequiredArgsConstructor
@@ -81,5 +83,31 @@ public class EmployeeController {
             model.addAttribute("errorMessage", e.getMessage());
             return "employee-form";
         }
+    }
+
+    @GetMapping("")
+    public String getAllEmployees(Model model) {
+        List<EmployeeReadOnlyDTO> employees = employeeService.getAllEmployees();
+        model.addAttribute("employees", employees);
+        return "employee-List";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteEmployee(@PathVariable Long id,  RedirectAttributes redirectAttributes){
+        try {
+            employeeService.deleteEmployee(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Ο υπάλληλος διαγράφηκε με επιτυχία");
+        }catch (EmployeeNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/hotel/employees";
+    }
+
+    public String getEmployeeById(@PathVariable Long id, Model model)
+            throws EmployeeNotFoundException{
+
+        EmployeeReadOnlyDTO employee = employeeService.getEmployeeById(id);
+        model.addAttribute("employee", employee);
+        return "employee-details";
     }
 }
