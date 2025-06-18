@@ -18,21 +18,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/hotel")
+@RequestMapping("/hotel/clients")
 @RequiredArgsConstructor
 public class ClientController {
 
     private final ClientMapper clientMapper;
     private final IClientService clientService;
 
-    @GetMapping("/clients/insert")
+    @GetMapping("/insert")
     public String getClientForm(Model model){
         model.addAttribute("clientInsertDTO",
                 new ClientInsertDTO(null, null, null, null, null, null));
         return  "client-form";
     }
 
-    @PostMapping("/clients/insert")
+    @PostMapping("/insert")
     public String insertClient(@Valid @ModelAttribute("clientInsertDTO") ClientInsertDTO clientInsertDTO,
                                BindingResult bindingResult,
                                Model model,
@@ -52,7 +52,7 @@ public class ClientController {
         }
     }
 
-    @GetMapping("/clients/update/{id}")
+    @GetMapping("/update/{id}")
     public String getUpdateClientForm(@PathVariable Long id, Model model) throws ClientNotFoundException {
         ClientReadOnlyDTO readOnlyDTO = clientService.getClientById(id);
 
@@ -68,7 +68,7 @@ public class ClientController {
         return "client-form";
     }
 
-    @PostMapping("/clients/update")
+    @PostMapping("/update")
     public String updateClient(@Valid @ModelAttribute("clientUpdateDTO") ClientUpdateDTO  clientUpdateDTO,
                                BindingResult bindingResult,
                                Model model,
@@ -88,14 +88,14 @@ public class ClientController {
         }
     }
 
-    @GetMapping("/clients")
+    @GetMapping("")
     public String getAllClients(Model model) {
         List<ClientReadOnlyDTO> clients = clientService.getAllClients();
         model.addAttribute("clients", clients);
         return "client-list";
     }
 
-    @GetMapping("/clients/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteClient(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             clientService.deleteClient(id);
@@ -106,7 +106,7 @@ public class ClientController {
         return "redirect:/hotel/clients";
     }
 
-    @GetMapping("/clients/{id}")
+    @GetMapping("/{id}")
     public String getClientById(@PathVariable Long id, Model model)
             throws ClientNotFoundException {
 
