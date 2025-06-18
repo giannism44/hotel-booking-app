@@ -2,10 +2,7 @@ package gr.aueb.cf.hotelapp.controller;
 
 import gr.aueb.cf.hotelapp.core.exceptions.EmployeeNotFoundException;
 import gr.aueb.cf.hotelapp.core.exceptions.UsernameAlreadyExistsException;
-import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
-import gr.aueb.cf.hotelapp.dto.EmployeeInsertDTO;
-import gr.aueb.cf.hotelapp.dto.EmployeeReadOnlyDTO;
-import gr.aueb.cf.hotelapp.dto.EmployeeUpdateDTO;
+import gr.aueb.cf.hotelapp.dto.*;
 import gr.aueb.cf.hotelapp.mapper.EmployeeMapper;
 import gr.aueb.cf.hotelapp.service.IEmployeeService;
 import jakarta.validation.Valid;
@@ -46,6 +43,41 @@ public class EmployeeController {
             redirectAttributes.addFlashAttribute("employee", savedEmployee);
             return "redirect:/hotel/employees";
         }catch (UsernameAlreadyExistsException e){
+            model.addAttribute("errorMessage", e.getMessage());
+            return "employee-form";
+        }
+    }
+
+    @GetMapping("/update/{id}")
+    public String getUpdateEmployeeForm(@PathVariable Long id, Model model)
+            throws EmployeeNotFoundException {
+        EmployeeReadOnlyDTO readOnlyDTO = employeeService.getEmployeeById(id);
+
+        EmployeeUpdateDTO updateDTO = new EmployeeUpdateDTO(
+                readOnlyDTO.id(),
+                readOnlyDTO.firstname(),
+                readOnlyDTO.lastname()
+        );
+
+        model.addAttribute("employeeUpdateDTO", updateDTO);
+        return "employee-form";
+    }
+
+    @PostMapping("/update")
+    public String updateClient(@Valid @ModelAttribute("employeeUpdateDTO") EmployeeUpdateDTO employeeUpdateDTO,
+                               BindingResult bindingResult,
+                               Model model,
+                               RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+            return "employee-form";
+        }
+
+        try {
+            EmployeeReadOnlyDTO updateEmployee = employeeService.updateEmployee(employeeUpdateDTO);
+            redirectAttributes.addFlashAttribute("employee", updateEmployee);
+            return "redirect:/hotel/employees";
+        }catch (UsernameAlreadyExistsException | EmployeeNotFoundException e){
             model.addAttribute("errorMessage", e.getMessage());
             return "employee-form";
         }
