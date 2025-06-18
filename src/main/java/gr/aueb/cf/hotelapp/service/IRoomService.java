@@ -9,7 +9,7 @@ import java.util.List;
 public interface IRoomService {
     RoomReadOnlyDTO updateRoom(RoomUpdateDTO dto)
             throws RoomNotFoundException;
-    void deleteRoom(Long id)
+    void disableRoom(Long id)
             throws RoomNotFoundException ;
     List<RoomReadOnlyDTO> getAllRooms();
     RoomReadOnlyDTO getRoomById(Long id)

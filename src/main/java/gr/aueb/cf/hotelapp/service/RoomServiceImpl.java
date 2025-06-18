@@ -33,12 +33,13 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public void deleteRoom(Long id)
+    public void disableRoom(Long id)
             throws RoomNotFoundException {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RoomNotFoundException("Room", "Το δωμάτιο με id " + id + " δεν βρέθηκε."));
 
-        roomRepository.delete(room);
+        room.setIsAvailable(false);
+        roomRepository.save(room);
     }
 
     @Override
