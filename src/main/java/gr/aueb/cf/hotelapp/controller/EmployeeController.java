@@ -66,7 +66,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/update")
-    public String updateClient(@Valid @ModelAttribute("employeeUpdateDTO") EmployeeUpdateDTO employeeUpdateDTO,
+    public String updateEmployee(@Valid @ModelAttribute("employeeUpdateDTO") EmployeeUpdateDTO employeeUpdateDTO,
                                BindingResult bindingResult,
                                Model model,
                                RedirectAttributes redirectAttributes){

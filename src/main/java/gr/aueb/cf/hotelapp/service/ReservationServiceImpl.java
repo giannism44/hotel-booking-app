@@ -44,7 +44,7 @@ public class ReservationServiceImpl implements IReservationService {
         Client client = clientRepository.findById(dto.clientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client", "Ο πελάτης δεν βρέθηκε."));
 
-        User user = userRepository.findByUsername("admin")  // ή από context αργότερα
+        User user = userRepository.findByUsername("admin")
                 .orElseThrow(() -> new UserNotFoundException("User", "Ο χρήστης δεν βρέθηκε."));
 
         boolean isBooked = reservationRepository
