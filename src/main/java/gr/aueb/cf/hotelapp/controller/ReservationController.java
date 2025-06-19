@@ -1,6 +1,7 @@
 package gr.aueb.cf.hotelapp.controller;
 
 import gr.aueb.cf.hotelapp.core.exceptions.ClientNotFoundException;
+import gr.aueb.cf.hotelapp.core.exceptions.ReservationNotFoundException;
 import gr.aueb.cf.hotelapp.core.exceptions.RoomNotAvailableException;
 import gr.aueb.cf.hotelapp.core.exceptions.UserNotFoundException;
 import gr.aueb.cf.hotelapp.dto.ReservationInsertDTO;
@@ -11,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -51,4 +49,28 @@ public class ReservationController {
         }
     }
 
+
+    @GetMapping("/delete/{id}")
+    public String deleteReservation(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            reservationService.deleteReservation(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Η κράτηση ακυρώθηκε.");
+        } catch (ReservationNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/hotel/reservations";
+    }
+
+    @GetMapping("")
+    public String getAllReservations(Model model) {
+        model.addAttribute("reservations", reservationService.getAllReservations());
+        return "reservation-list";
+    }
+
+    @GetMapping("/{id}")
+    public String getReservationById(@PathVariable Long id, Model model) throws ReservationNotFoundException {
+        ReservationReadOnlyDTO reservation = reservationService.getReservationById(id);
+        model.addAttribute("reservation", reservation);
+        return "reservation-details";
+    }
 }
