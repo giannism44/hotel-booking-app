@@ -5,6 +5,11 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+
+/**
+ * Η οντότητα EmployeeStatus παρακολουθεί τον αριθμό κρατήσεων που έχει κάνει κάθε υπάλληλος.
+ * Περιλαμβάνει πληροφορίες για μπόνους και την τελευταία ενημέρωση.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

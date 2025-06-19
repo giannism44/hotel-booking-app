@@ -13,6 +13,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+/**
+ * Βασική κλάση για audit πληροφορίες (createdAt, updatedAt).
+ * Όλες οι οντότητες που την επεκτείνουν κληρονομούν αυτόματο χρονισμό.
+ */
 @MappedSuperclass
 @Getter
 @Setter

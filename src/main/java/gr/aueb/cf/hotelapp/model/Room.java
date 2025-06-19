@@ -9,6 +9,11 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Η οντότητα Room αναπαριστά ένα δωμάτιο του ξενοδοχείου.
+ * Περιλαμβάνει αριθμό δωματίου, τύπο, τιμή και διαθεσιμότητα.
+ * Συνδέεται με πολλαπλές κρατήσεις.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

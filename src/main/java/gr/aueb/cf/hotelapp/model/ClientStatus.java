@@ -3,6 +3,11 @@ package gr.aueb.cf.hotelapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+/**
+ * Η οντότητα ClientStatus καταγράφει πόσες κρατήσεις έχει κάνει κάθε πελάτης.
+ * Χρησιμοποιείται για την ενεργοποίηση έκπτωσης βάσει των συνολικών κρατήσεων.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

@@ -6,6 +6,12 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+
+/**
+ * Η οντότητα Reservation αναπαριστά μια κράτηση δωματίου.
+ * Περιλαμβάνει ημερομηνίες check-in/check-out, κατάσταση κράτησης,
+ * καθώς και συνδέσεις με πελάτη, δωμάτιο και χρήστη που την καταχώρησε.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
