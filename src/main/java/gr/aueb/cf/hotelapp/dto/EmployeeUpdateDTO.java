@@ -2,6 +2,10 @@ package gr.aueb.cf.hotelapp.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 
+/**
+ * DTO για ενημέρωση στοιχείων υπαλλήλου.
+ * Χρησιμοποιείται για αλλαγή ονόματος και επιθέτου.
+ */
 public record EmployeeUpdateDTO(
         Long id,
 
