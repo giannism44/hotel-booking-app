@@ -4,6 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * DTO για την εισαγωγή νέου πελάτη μέσω φορμών.
+ * Περιλαμβάνει validation για email, κωδικό, τηλέφωνο και ΑΦΜ.
+ */
 public record ClientInsertDTO(
         @Email(message = "Το username πρέπει να είναι έγκυρο email")
         String username,

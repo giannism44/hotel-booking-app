@@ -3,6 +3,10 @@ package gr.aueb.cf.hotelapp.dto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * DTO για ενημέρωση στοιχείων πελάτη.
+ * Περιλαμβάνει validation για όνομα, τηλέφωνο και ΑΦΜ.
+ */
 public record ClientUpdateDTO(
         Long id,
 
