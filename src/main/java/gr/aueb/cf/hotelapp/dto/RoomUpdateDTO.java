@@ -3,6 +3,10 @@ package gr.aueb.cf.hotelapp.dto;
 import gr.aueb.cf.hotelapp.core.enums.RoomType;
 import jakarta.validation.constraints.*;
 
+/**
+ * DTO για ενημέρωση δωματίου.
+ * Περιλαμβάνει τύπο, τιμή και διαθεσιμότητα.
+ */
 public record RoomUpdateDTO(
         Long id,
 
