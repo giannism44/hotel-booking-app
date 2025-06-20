@@ -5,6 +5,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
+/**
+ * DTO για εισαγωγή νέας κράτησης.
+ * Περιλαμβάνει ημερομηνίες, δωμάτιο και πελάτη με απαραίτητο validation.
+ */
 public record ReservationInsertDTO(
         @NotNull(message = "Η ημερομηνία check-in είναι υποχρεωτική")
         @FutureOrPresent(message = "Η ημερομηνία check-in πρέπει να είναι στο μέλλον")
