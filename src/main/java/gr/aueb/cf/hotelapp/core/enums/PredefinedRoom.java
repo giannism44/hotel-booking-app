@@ -1,5 +1,10 @@
 package gr.aueb.cf.hotelapp.core.enums;
 
+
+/**
+ * Enum που περιέχει όλα τα προκαθορισμένα δωμάτια.
+ * Χρησιμοποιείται για αυτόματη εισαγωγή δωματίων κατά την εκκίνηση της εφαρμογής.
+ */
 public enum PredefinedRoom {
     R101("101", RoomType.SINGLE, 70.0),
     R102("102", RoomType.SINGLE, 70.0),
