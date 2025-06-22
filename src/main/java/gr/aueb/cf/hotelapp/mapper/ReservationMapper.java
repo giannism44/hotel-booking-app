@@ -9,6 +9,10 @@ import gr.aueb.cf.hotelapp.model.Room;
 import gr.aueb.cf.hotelapp.model.User;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper για μετατροπή μεταξύ Reservation entity και DTOs.
+ * Χρησιμοποιείται για δημιουργία και προβολή κρατήσεων.
+ */
 @Component
 public class ReservationMapper {
 
