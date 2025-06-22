@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper για μετατροπή μεταξύ Employee entity και DTOs.
+ * Χρησιμοποιείται για εισαγωγή, ενημέρωση και προβολή υπαλλήλων.
+ */
 @Component
 @RequiredArgsConstructor
 public class EmployeeMapper {
