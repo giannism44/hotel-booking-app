@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper για μετατροπή μεταξύ Client entity και DTOs.
+ * Περιλαμβάνει map για εισαγωγή, ενημέρωση και προβολή.
+ */
 @Component
 @RequiredArgsConstructor
 public class ClientMapper {
