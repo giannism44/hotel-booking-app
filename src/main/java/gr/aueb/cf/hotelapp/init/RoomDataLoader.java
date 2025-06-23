@@ -15,11 +15,15 @@ public class RoomDataLoader {
 
     @PostConstruct
     public void initRooms() {
+        long count =  roomRepository.count();
+
+        if(count > 0) return;
+
         for (int floor = 1; floor <= 5; floor++) {
             for (int roomNum = 1; roomNum <= 10; roomNum++) {
                 String roomNumber = floor + String.format("%02d", roomNum);
 
-                if (roomRepository.findByRoomNumber(roomNumber).isEmpty()) {
+//                if (roomRepository.findByRoomNumber(roomNumber).isEmpty()) {
                     Room room = new Room();
                     room.setRoomNumber(roomNumber);
 
@@ -36,7 +40,7 @@ public class RoomDataLoader {
 
                     room.setIsAvailable(true);
                     roomRepository.save(room);
-                }
+//                }
             }
         }
     }
