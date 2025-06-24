@@ -18,7 +18,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/index.html", "/login", "/public/**").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/public/**", "/hotel/clients/insert", "/hotel/employees/insert").permitAll()
+                        .requestMatchers("/images/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/hotel/clients/insert", "/hotel/clients/insert/**").permitAll()
                         .requestMatchers("/hotel/clients/**").hasAuthority("ROLE_CLIENT")
                         .requestMatchers("/hotel/employees/**").hasAuthority("ROLE_EMPLOYEE")
