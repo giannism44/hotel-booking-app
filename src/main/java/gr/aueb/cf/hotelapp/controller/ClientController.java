@@ -45,11 +45,17 @@ public class ClientController {
         try {
             ClientReadOnlyDTO savedClient = clientService.insertClient(clientInsertDTO);
             redirectAttributes.addFlashAttribute("client", savedClient);
-            return "redirect:/hotel/clients";
+            redirectAttributes.addFlashAttribute("successMessage", "Η εγγραφή ολοκληρώθηκε επιτυχώς!");
+            return "redirect:/hotel/employees/registered"; // ή /hotel/clients/registered
         } catch (UsernameAlreadyExistsException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "client-form";
         }
+    }
+
+    @GetMapping("/registered")
+    public String showClientRegistered() {
+        return "registration-success";
     }
 
     @GetMapping("/update/{id}")
