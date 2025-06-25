@@ -18,13 +18,16 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "/register", "/public/**", "/hotel/clients/insert", "/hotel/employees/insert").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/public/**").permitAll()
                         .requestMatchers("/images/**", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/about", "/hotel/employees/registered", "/hotel/clients/registered").permitAll()
                         .requestMatchers("/hotel/clients/insert", "/hotel/clients/insert/**").permitAll()
+                        .requestMatchers("/hotel/employees/insert").permitAll()
                         .requestMatchers("/hotel/clients/**").hasAuthority("ROLE_CLIENT")
                         .requestMatchers("/hotel/employees/**").hasAuthority("ROLE_EMPLOYEE")
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/dashboard", true)
