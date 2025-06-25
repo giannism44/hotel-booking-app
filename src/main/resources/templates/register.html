@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | Aristotelous Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+</head>
+<body>
+
+<div class="hero">
+    <div class="hero-overlay"></div>
+
+    <div class="login-form text-center">
+        <h3 class="mb-4">Δημιουργία Λογαριασμού</h3>
+        <a id="clientBtn" href="/hotel/clients/insert" class="btn btn-outline-light w-100 mb-3" onclick="highlightChoice(event, 'client')">Πελάτης</a>
+        <a id="employeeBtn" href="/hotel/employees/insert" class="btn btn-outline-light w-100" onclick="highlightChoice(event, 'employee')">Υπάλληλος</a>
+        <a href="/login" class="btn btn-warning w-100 mt-4">
+            <i class="fas fa-arrow-left me-2"></i> Πίσω στη Σελίδα Σύνδεσης
+        </a>
+    </div>
+</div>
+
+<script>
+    function highlightChoice(event, role) {
+        event.preventDefault();
+
+        const clientBtn = document.getElementById('clientBtn');
+        const employeeBtn = document.getElementById('employeeBtn');
+
+        if (role === 'client') {
+            clientBtn.classList.remove('btn-outline-light');
+            clientBtn.classList.add('btn-warning');
+
+            employeeBtn.classList.remove('btn-warning');
+            employeeBtn.classList.add('btn-outline-light');
+
+            setTimeout(() => {
+                window.location.href = clientBtn.href;
+            }, 200);
+        } else {
+            employeeBtn.classList.remove('btn-outline-light');
+            employeeBtn.classList.add('btn-warning');
+
+            clientBtn.classList.remove('btn-warning');
+            clientBtn.classList.add('btn-outline-light');
+
+            setTimeout(() => {
+                window.location.href = employeeBtn.href;
+            }, 200);
+        }
+    }
+</script>
+</body>
+</html>
