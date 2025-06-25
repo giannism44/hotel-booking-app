@@ -43,12 +43,20 @@ public class EmployeeController {
         try {
             EmployeeReadOnlyDTO savedEmployee = employeeService.insertEmployee(employeeInsertDTO);
             redirectAttributes.addFlashAttribute("employee", savedEmployee);
-            return "redirect:/hotel/employees";
+            redirectAttributes.addFlashAttribute("successMessage", "Η εγγραφή ολοκληρώθηκε επιτυχώς!");
+            return "redirect:/hotel/employees/registered";
         }catch (UsernameAlreadyExistsException e){
             model.addAttribute("errorMessage", e.getMessage());
             return "employee-form";
         }
     }
+
+    @GetMapping("/registered")
+    public String showEmployeeRegistered(Model model) {
+        System.out.println("Success Message: " + model.getAttribute("successMessage"));
+        return "registration-success";
+    }
+
 
     @GetMapping("/update/{id}")
     public String getUpdateEmployeeForm(@PathVariable Long id, Model model)
