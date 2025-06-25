@@ -1,0 +1,13 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+    font-weight: 500;
+}
+
+a.btn {
+    padding: 10px 30px;
+    font-size: 16px;
+}
