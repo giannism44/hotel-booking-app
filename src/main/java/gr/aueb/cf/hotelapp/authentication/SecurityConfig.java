@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/about", "/hotel/employees/registered", "/hotel/clients/registered").permitAll()
                         .requestMatchers("/hotel/clients/insert", "/hotel/clients/insert/**").permitAll()
                         .requestMatchers("/hotel/employees/insert").permitAll()
+                        .requestMatchers("/hotel/rooms/**").permitAll()
                         .requestMatchers("/hotel/clients/**").hasAuthority("ROLE_CLIENT")
                         .requestMatchers("/hotel/employees/**").hasAuthority("ROLE_EMPLOYEE")
                         .anyRequest().authenticated()
