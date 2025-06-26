@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Δωμάτια | Aristotelous Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/rooms.css}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Aristotelous Hotel</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-overlay"></div>
+
+    <div class="container text-white py-5">
+        <h2 class="text-center mb-5">Τα Δωμάτιά μας</h2>
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-md-4">
+                <div class="card">
+                    <!-- Carousel με 3 εικόνες -->
+                    <div id="carouselSingle" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/images/single.jpg" class="d-block w-100" alt="Single Room">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/single1.jpg" class="d-block w-100" alt="Single Room Bathroom">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/single2.jpg" class="d-block w-100" alt="Single Room Other View">
+                            </div>
+                        </div>
+                        <!-- Βελάκια -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSingle" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                            <span class="visually-hidden">Προηγούμενο</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselSingle" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                            <span class="visually-hidden">Επόμενο</span>
+                        </button>
+                    </div>
+
+                    <!-- Κείμενο και κουμπί -->
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Μονόκλινο</h5>
+                        <p class="card-text">Τιμή: €70 / βραδιά</p>
+                        <a href="/login" class="btn btn-warning">Κάντε Κράτηση</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <!-- Carousel για Δίκλινο -->
+                    <div id="carouselDouble" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/images/double.jpg" class="d-block w-100" alt="Double Room">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/double1.jpg" class="d-block w-100" alt="Double Room Bathroom">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/double2.jpg" class="d-block w-100" alt="Double Room View">
+                            </div>
+                        </div>
+                        <!-- Βελάκια -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDouble" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                            <span class="visually-hidden">Προηγούμενο</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselDouble" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                            <span class="visually-hidden">Επόμενο</span>
+                        </button>
+                    </div>
+
+                    <!-- Κείμενο και κουμπί -->
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Δίκλινο</h5>
+                        <p class="card-text">Τιμή: €100 / βραδιά</p>
+                        <a href="/login" class="btn btn-warning">Κάντε Κράτηση</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="card">
+                    <!-- Carousel για Σουίτα -->
+                    <div id="carouselSuite" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/images/suite.jpg" class="d-block w-100" alt="Suite">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/suite1.jpg" class="d-block w-100" alt="Suite Interior">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/suite2.jpg" class="d-block w-100" alt="Suite View">
+                            </div>
+                        </div>
+                        <!-- Βελάκια -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSuite" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                            <span class="visually-hidden">Προηγούμενο</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselSuite" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                            <span class="visually-hidden">Επόμενο</span>
+                        </button>
+                    </div>
+
+                    <!-- Κείμενο και κουμπί -->
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Σουίτα</h5>
+                        <p class="card-text">Τιμή: €150 / βραδιά</p>
+                        <a href="/login" class="btn btn-warning">Κάντε Κράτηση</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
