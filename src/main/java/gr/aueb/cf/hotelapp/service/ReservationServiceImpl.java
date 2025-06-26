@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,12 +35,14 @@ public class ReservationServiceImpl implements IReservationService {
     public ReservationReadOnlyDTO insertReservation(ReservationInsertDTO dto)
             throws RoomNotAvailableException, ClientNotFoundException, UserNotFoundException {
 
-        Room room = roomRepository.findById(dto.roomId())
-                .orElseThrow(() -> new RoomNotAvailableException("Room", "Το δωμάτιο με id: " + dto.roomId() + " δεν είναι διαθέσιμο"));
+        List<Room> availableRooms = roomRepository.findByRoomTypeAndIsAvailableTrue(dto.roomType());
 
-        if (!room.getIsAvailable()) {
-            throw new RoomNotAvailableException("Room", "Το δωμάτιο με id: " + room.getId() + " δεν είναι διαθέσιμο");
+        if (availableRooms.isEmpty()) {
+            throw new RoomNotAvailableException("Room", "Δεν υπάρχει διαθέσιμο δωμάτιο τύπου " + dto.roomType());
         }
+
+// Τυχαία επιλογή ενός δωματίου
+        Room room = availableRooms.get(new Random().nextInt(availableRooms.size()));
 
         Client client = clientRepository.findById(dto.clientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client", "Ο πελάτης δεν βρέθηκε."));
