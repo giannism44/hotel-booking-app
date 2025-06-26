@@ -13,7 +13,7 @@ public record EmployeeInsertDTO(
         String username,
 
         @Pattern(regexp = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)(?=.*?[@#$!%&*]).{8,}$",
-                message = "Εισάγεται έγκυρο κωδικό")
+                message = "Ο κωδικός πρέπει να περιέχει τουλάχιστον 8 χαρακτήρες, ένα κεφαλαίο, ένα μικρό, έναν αριθμό και ένα σύμβολο (@#$!%&*)")
         String password,
 
         @NotEmpty(message = "Το όνομα είναι υποχρεωτικό")
