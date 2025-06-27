@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Δωμάτια | Aristotelous Hotel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/rooms.css}">
 </head>
 <body>
@@ -11,8 +12,52 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Aristotelous Hotel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="hotelDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ξενοδοχείο
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="hotelDropdown">
+                        <li><a class="dropdown-item" href="/about">Πληροφορίες</a></li>
+                        <li><a class="dropdown-item" href="#">Αξιολόγηση</a></li>
+                        <li><a class="dropdown-item" href="https://www.google.com/maps/search/?api=1&query=Aristotelous+Hotel,+Thessaloniki" target="_blank">Τοποθεσία</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/hotel/rooms">Δωμάτια</a>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" href="#">Σπα</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Εστιατόριο</a></li>
+            </ul>
+
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>
+                        <span th:text="${#authentication.name}">email@example.com</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="dropdown-item p-0">
+                                <button type="submit" class="btn btn-link dropdown-item text-danger">
+                                    <i class="fas fa-door-open me-2"></i> Αποσύνδεση
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
+
 
 <div class="hero">
     <div class="hero-overlay"></div>
@@ -23,7 +68,6 @@
 
             <div class="col-md-4">
                 <div class="card">
-                    <!-- Carousel με 3 εικόνες -->
                     <div id="carouselSingle" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -36,7 +80,6 @@
                                 <img src="/images/single2.jpg" class="d-block w-100" alt="Single Room Other View">
                             </div>
                         </div>
-                        <!-- Βελάκια -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselSingle" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
                             <span class="visually-hidden">Προηγούμενο</span>
@@ -47,18 +90,19 @@
                         </button>
                     </div>
 
-                    <!-- Κείμενο και κουμπί -->
                     <div class="card-body text-center">
                         <h5 class="card-title">Μονόκλινο</h5>
                         <p class="card-text">Τιμή: €70 / βραδιά</p>
-                        <a href="/login" class="btn btn-warning">Κάντε Κράτηση</a>
+                        <a th:href="${#authorization.expression('isAuthenticated()')} ? '/hotel/reservations/insert?roomType=SINGLE' : '/login'"
+                           class="btn btn-warning">
+                            Κάντε Κράτηση
+                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="card">
-                    <!-- Carousel για Δίκλινο -->
                     <div id="carouselDouble" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -71,7 +115,6 @@
                                 <img src="/images/double2.jpg" class="d-block w-100" alt="Double Room View">
                             </div>
                         </div>
-                        <!-- Βελάκια -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselDouble" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
                             <span class="visually-hidden">Προηγούμενο</span>
@@ -82,19 +125,19 @@
                         </button>
                     </div>
 
-                    <!-- Κείμενο και κουμπί -->
                     <div class="card-body text-center">
                         <h5 class="card-title">Δίκλινο</h5>
                         <p class="card-text">Τιμή: €100 / βραδιά</p>
-                        <a href="/login" class="btn btn-warning">Κάντε Κράτηση</a>
+                        <a th:href="${#authorization.expression('isAuthenticated()')} ? '/hotel/reservations/insert?roomType=DOUBLE' : '/login'"
+                           class="btn btn-warning">
+                            Κάντε Κράτηση
+                        </a>
                     </div>
                 </div>
             </div>
 
-
             <div class="col-md-4">
                 <div class="card">
-                    <!-- Carousel για Σουίτα -->
                     <div id="carouselSuite" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -107,7 +150,6 @@
                                 <img src="/images/suite2.jpg" class="d-block w-100" alt="Suite View">
                             </div>
                         </div>
-                        <!-- Βελάκια -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselSuite" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
                             <span class="visually-hidden">Προηγούμενο</span>
@@ -118,15 +160,16 @@
                         </button>
                     </div>
 
-                    <!-- Κείμενο και κουμπί -->
                     <div class="card-body text-center">
                         <h5 class="card-title">Σουίτα</h5>
                         <p class="card-text">Τιμή: €150 / βραδιά</p>
-                        <a href="/login" class="btn btn-warning">Κάντε Κράτηση</a>
+                        <a th:href="${#authorization.expression('isAuthenticated()')} ? '/hotel/reservations/insert?roomType=SUITE' : '/login'"
+                           class="btn btn-warning">
+                            Κάντε Κράτηση
+                        </a>
                     </div>
                 </div>
             </div>
-
 
         </div>
     </div>
