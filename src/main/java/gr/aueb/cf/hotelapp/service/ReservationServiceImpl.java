@@ -10,6 +10,8 @@ import gr.aueb.cf.hotelapp.mapper.ReservationMapper;
 import gr.aueb.cf.hotelapp.model.*;
 import gr.aueb.cf.hotelapp.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,20 +37,18 @@ public class ReservationServiceImpl implements IReservationService {
     public ReservationReadOnlyDTO insertReservation(ReservationInsertDTO dto)
             throws RoomNotAvailableException, ClientNotFoundException, UserNotFoundException {
 
-        List<Room> availableRooms = roomRepository.findByRoomTypeAndIsAvailableTrue(dto.roomType());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
-        if (availableRooms.isEmpty()) {
-            throw new RoomNotAvailableException("Room", "Δεν υπάρχει διαθέσιμο δωμάτιο τύπου " + dto.roomType());
-        }
-
-// Τυχαία επιλογή ενός δωματίου
-        Room room = availableRooms.get(new Random().nextInt(availableRooms.size()));
+        Room room = roomRepository.findById(dto.roomId())
+                .orElseThrow(() -> new RoomNotAvailableException("Room", "Το δωμάτιο με id: " +dto.roomId() + "δεν είναι διαθέσιμο"));
 
         Client client = clientRepository.findById(dto.clientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client", "Ο πελάτης δεν βρέθηκε."));
 
-        User user = userRepository.findByUsername("admin")
-                .orElseThrow(() -> new UserNotFoundException("User", "Ο χρήστης δεν βρέθηκε."));
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User", "Ο χρήστης με username: " + username + " δεν βρέθηκε."));
 
         boolean isBooked = reservationRepository
                 .existsByRoomAndCheckInLessThanEqualAndCheckOutGreaterThanEqual(
@@ -62,8 +62,6 @@ public class ReservationServiceImpl implements IReservationService {
         Reservation reservation = reservationMapper.mapToReservationEntity(dto, room, client, user);
         Reservation saved = reservationRepository.save(reservation);
 
-        room.setIsAvailable(false);
-        roomRepository.save(room);
 
         ClientStatus clientStatus = clientStatusRepository.findById(client.getId())
                 .orElseGet(() -> {
