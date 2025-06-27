@@ -1,6 +1,5 @@
 package gr.aueb.cf.hotelapp.dto;
 
-import gr.aueb.cf.hotelapp.core.enums.RoomType;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,7 +19,7 @@ public record ReservationInsertDTO(
         LocalDate checkOut,
 
         @NotNull(message = "Ο τύπος δωματίου είναι υποχρεωτικός")
-        RoomType roomType,
+        Long roomId,
 
         @NotNull(message = "Ο πελάτης είναι υποχρεωτικός")
         Long clientId
