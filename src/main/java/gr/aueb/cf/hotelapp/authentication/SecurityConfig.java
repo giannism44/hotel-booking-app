@@ -26,12 +26,13 @@ public class SecurityConfig {
                         .requestMatchers("/hotel/rooms/**").permitAll()
                         .requestMatchers("/hotel/clients/**").hasAuthority("ROLE_CLIENT")
                         .requestMatchers("/hotel/employees/**").hasAuthority("ROLE_EMPLOYEE")
+                        .requestMatchers("/hotel/reservations/**").authenticated()
                         .anyRequest().authenticated()
                 )
 
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
