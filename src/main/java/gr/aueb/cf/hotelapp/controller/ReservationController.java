@@ -6,7 +6,10 @@ import gr.aueb.cf.hotelapp.core.exceptions.RoomNotAvailableException;
 import gr.aueb.cf.hotelapp.core.exceptions.UserNotFoundException;
 import gr.aueb.cf.hotelapp.dto.ReservationInsertDTO;
 import gr.aueb.cf.hotelapp.dto.ReservationReadOnlyDTO;
+import gr.aueb.cf.hotelapp.model.Client;
+import gr.aueb.cf.hotelapp.service.IClientService;
 import gr.aueb.cf.hotelapp.service.IReservationService;
+import gr.aueb.cf.hotelapp.service.IRoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,36 +18,47 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/hotel/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
 
     private final IReservationService reservationService;
+    private final IRoomService roomService;
+    private final IClientService clientService;
 
-    @GetMapping("/insert")
-    public String getReservationForm(Model model) {
-        model.addAttribute("reservationInsertDTO",
-                new ReservationInsertDTO(null, null, null, null));
+   @GetMapping("/insert")
+    public String getReservationForm(Model model, Principal principal) throws ClientNotFoundException {
+        String username = principal.getName();
+        Client client = clientService.findByUsername(username);
+
+        ReservationInsertDTO dto = new ReservationInsertDTO(null, null, null, client.getId());
+
+        model.addAttribute("reservationInsertDTO", dto);
+        model.addAttribute("rooms", roomService.getAllRooms());
         return "reservation-form";
     }
 
     @PostMapping("/insert")
-    public String insertReservation(@Valid @ModelAttribute("reservationInsertDTO")ReservationInsertDTO reservationInsertDTO,
+    public String insertReservation(@Valid @ModelAttribute("reservationInsertDTO") ReservationInsertDTO reservationInsertDTO,
                                     BindingResult bindingResult,
                                     Model model,
-                                    RedirectAttributes redirectAttributes){
+                                    RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("rooms", roomService.getAllRooms());
             return "reservation-form";
         }
 
         try {
             ReservationReadOnlyDTO savedReservation = reservationService.insertReservation(reservationInsertDTO);
-            redirectAttributes.addFlashAttribute("reservation", savedReservation);
-            return "redirect:/hotel/reservations";
-        }catch (UserNotFoundException | RoomNotAvailableException | ClientNotFoundException e){
+            redirectAttributes.addFlashAttribute("successMessage", "Η κράτηση καταχωρήθηκε με επιτυχία!");
+            return "redirect:/hotel/rooms";
+        } catch (UserNotFoundException | RoomNotAvailableException | ClientNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("rooms", roomService.getAllRooms());
             return "reservation-form";
         }
     }
