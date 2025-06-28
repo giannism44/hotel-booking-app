@@ -95,4 +95,11 @@ public class ClientServiceImpl implements IClientService{
 
         return clientMapper.mapToClientReadOnlyDTO(client);
     }
+
+    @Override
+    public Client findByUsername(String username)
+            throws ClientNotFoundException {
+        return clientRepository.findByUserUsername(username)
+                .orElseThrow(() -> new ClientNotFoundException("Client", "Ο πελάτης με username " + username + " δεν βρέθηκε."));
+    }
 }
