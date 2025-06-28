@@ -55,7 +55,7 @@ public class ReservationController {
         try {
             ReservationReadOnlyDTO savedReservation = reservationService.insertReservation(reservationInsertDTO);
             redirectAttributes.addFlashAttribute("successMessage", "Η κράτηση καταχωρήθηκε με επιτυχία!");
-            return "redirect:/hotel/rooms";
+            return "redirect:/hotel/reservations/success";
         } catch (UserNotFoundException | RoomNotAvailableException | ClientNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("rooms", roomService.getAllRooms());
@@ -86,5 +86,14 @@ public class ReservationController {
         ReservationReadOnlyDTO reservation = reservationService.getReservationById(id);
         model.addAttribute("reservation", reservation);
         return "reservation-details";
+    }
+
+    @GetMapping("/success")
+    public String showReservationSuccess(Model model) {
+        if (!model.containsAttribute("successMessage")) {
+            model.addAttribute("successMessage", "Η κράτηση ολοκληρώθηκε επιτυχώς!");
+        }
+        model.addAttribute("returnUrl", "/");
+        return "registration-success";
     }
 }
