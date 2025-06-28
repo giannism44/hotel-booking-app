@@ -54,6 +54,7 @@ public class EmployeeController {
     @GetMapping("/registered")
     public String showEmployeeRegistered(Model model) {
         System.out.println("Success Message: " + model.getAttribute("successMessage"));
+        model.addAttribute("returnUrl", "/login");
         return "registration-success";
     }
 

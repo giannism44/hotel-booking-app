@@ -54,7 +54,9 @@ public class ClientController {
     }
 
     @GetMapping("/registered")
-    public String showClientRegistered() {
+    public String showClientRegistered(Model model) {
+        System.out.println("Success Message: " + model.getAttribute("successMessage"));
+        model.addAttribute("returnUrl", "/login");
         return "registration-success";
     }
 
