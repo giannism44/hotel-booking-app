@@ -5,6 +5,7 @@ import gr.aueb.cf.hotelapp.core.exceptions.UsernameAlreadyExistsException;
 import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
 import gr.aueb.cf.hotelapp.dto.ClientReadOnlyDTO;
 import gr.aueb.cf.hotelapp.dto.ClientUpdateDTO;
+import gr.aueb.cf.hotelapp.model.Client;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface IClientService {
     List<ClientReadOnlyDTO> getAllClients();
     ClientReadOnlyDTO getClientById(Long id)
             throws ClientNotFoundException;
+    Client findByUsername(String username) throws ClientNotFoundException;
 }
