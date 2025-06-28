@@ -9,8 +9,8 @@
 <body>
 
 <div class="container mt-5 text-center">
-    <h2 class="text-success mb-4" th:text="${successMessage}">Η εγγραφή ολοκληρώθηκε επιτυχώς!</h2>
-    <a href="/login" class="btn btn-warning">Επιστροφή στην αρχική</a>
+    <h2 class="text-success mb-4" th:text="${successMessage}">Επιτυχής ενέργεια!</h2>
+    <a th:href="${returnUrl}" class="btn btn-warning">Επιστροφή στην αρχική</a>
 </div>
 
 </body>
