@@ -1,5 +1,6 @@
 package gr.aueb.cf.hotelapp.mapper;
 
+import gr.aueb.cf.hotelapp.core.enums.ReservationStatus;
 import gr.aueb.cf.hotelapp.core.enums.Role;
 import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
 import gr.aueb.cf.hotelapp.dto.ClientReadOnlyDTO;
@@ -9,6 +10,8 @@ import gr.aueb.cf.hotelapp.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 /**
  * Mapper για μετατροπή μεταξύ Client entity και DTOs.
@@ -20,16 +23,30 @@ public class ClientMapper {
 
     private final PasswordEncoder passwordEncoder;
 
-    public ClientReadOnlyDTO mapToClientReadOnlyDTO(Client client) {
+    public static ClientReadOnlyDTO mapToClientReadOnlyDTO(Client client) {
+        boolean hasActiveReservation = client.getReservations()
+                .stream()
+                .anyMatch(r ->
+                        r.getStatus() == ReservationStatus.CONFIRMED &&
+                                r.getCheckOut().isAfter(LocalDate.now())
+                );
+
+        int totalBookings = (client.getClientStatus() != null)
+                ? client.getClientStatus().getTotalBookings()
+                : 0;
+
         return new ClientReadOnlyDTO(
                 client.getId(),
-                client.getUser().getUsername(),
+                client.getUser() != null ? client.getUser().getUsername() : "",
                 client.getFirstname(),
                 client.getLastname(),
                 client.getPhone(),
-                client.getVat()
+                client.getVat(),
+                hasActiveReservation,
+                totalBookings
         );
     }
+
 
     public Client mapToClientEntity(ClientInsertDTO dto) {
         Client client = new Client();

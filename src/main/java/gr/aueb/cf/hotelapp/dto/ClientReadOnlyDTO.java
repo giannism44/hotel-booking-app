@@ -6,5 +6,7 @@ public record ClientReadOnlyDTO(
         String firstname,
         String lastname,
         String phone,
-        String vat
+        String vat,
+        boolean hasActiveReservation,
+        int totalBookings
 ) {}

@@ -88,7 +88,7 @@ public class ClientServiceImpl implements IClientService{
     public List<ClientReadOnlyDTO> getAllClients() {
         return clientRepository.findAll()
                 .stream()
-                .map(clientMapper::mapToClientReadOnlyDTO)
+                .map(ClientMapper::mapToClientReadOnlyDTO)
                 .toList();
     }
 
