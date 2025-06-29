@@ -1,5 +1,6 @@
 package gr.aueb.cf.hotelapp.service;
 
+import gr.aueb.cf.hotelapp.core.exceptions.ClientHasReservationsException;
 import gr.aueb.cf.hotelapp.core.exceptions.ClientNotFoundException;
 import gr.aueb.cf.hotelapp.core.exceptions.UsernameAlreadyExistsException;
 import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
@@ -71,10 +72,14 @@ public class ClientServiceImpl implements IClientService{
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void deleteClient(Long id)
-            throws ClientNotFoundException {
+            throws ClientNotFoundException, ClientHasReservationsException {
 
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client", "Ο πελάτης με id " + id + " δεν βρέθηκε."));
+
+        if (!client.getReservations().isEmpty()) {
+            throw new ClientHasReservationsException("CLIENT_HAS_RESERVATIONS", "Ο πελάτης έχει ενεργές κρατήσεις και δεν μπορεί να διαγραφεί.");
+        }
 
         clientRepository.delete(client);
     }
@@ -101,5 +106,12 @@ public class ClientServiceImpl implements IClientService{
             throws ClientNotFoundException {
         return clientRepository.findByUserUsername(username)
                 .orElseThrow(() -> new ClientNotFoundException("Client", "Ο πελάτης με username " + username + " δεν βρέθηκε."));
+    }
+
+    @Override
+    public ClientReadOnlyDTO getClientByPhone(String phone) throws ClientNotFoundException {
+        Client client = clientRepository.findByPhone(phone)
+                .orElseThrow(() -> new ClientNotFoundException("CLIENT_NOT_FOUND", "Ο πελάτης δεν βρέθηκε."));
+        return clientMapper.mapToClientReadOnlyDTO(client);
     }
 }

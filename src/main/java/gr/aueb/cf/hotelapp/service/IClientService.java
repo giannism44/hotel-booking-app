@@ -1,5 +1,6 @@
 package gr.aueb.cf.hotelapp.service;
 
+import gr.aueb.cf.hotelapp.core.exceptions.ClientHasReservationsException;
 import gr.aueb.cf.hotelapp.core.exceptions.ClientNotFoundException;
 import gr.aueb.cf.hotelapp.core.exceptions.UsernameAlreadyExistsException;
 import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
@@ -15,9 +16,10 @@ public interface IClientService {
     ClientReadOnlyDTO updateClient(ClientUpdateDTO dto)
             throws ClientNotFoundException, UsernameAlreadyExistsException;
     void deleteClient(Long id)
-            throws ClientNotFoundException ;
+            throws ClientNotFoundException, ClientHasReservationsException;
     List<ClientReadOnlyDTO> getAllClients();
     ClientReadOnlyDTO getClientById(Long id)
             throws ClientNotFoundException;
     Client findByUsername(String username) throws ClientNotFoundException;
+    ClientReadOnlyDTO getClientByPhone(String phone) throws ClientNotFoundException;
 }
