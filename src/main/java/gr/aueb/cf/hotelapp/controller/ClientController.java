@@ -7,6 +7,7 @@ import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
 import gr.aueb.cf.hotelapp.dto.ClientReadOnlyDTO;
 import gr.aueb.cf.hotelapp.dto.ClientUpdateDTO;
 import gr.aueb.cf.hotelapp.mapper.ClientMapper;
+import gr.aueb.cf.hotelapp.model.Client;
 import gr.aueb.cf.hotelapp.service.IClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -30,7 +32,7 @@ public class ClientController {
     public String getClientForm(Model model){
         model.addAttribute("clientInsertDTO",
                 new ClientInsertDTO(null, null, null, null, null, null));
-        return  "client-form";
+        return  "client/client-form";
     }
 
     @PostMapping("/insert")
@@ -40,17 +42,17 @@ public class ClientController {
                                RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "client-form";
+            return "client/client-form";
         }
 
         try {
             ClientReadOnlyDTO savedClient = clientService.insertClient(clientInsertDTO);
             redirectAttributes.addFlashAttribute("client", savedClient);
             redirectAttributes.addFlashAttribute("successMessage", "Η εγγραφή ολοκληρώθηκε επιτυχώς!");
-            return "redirect:/hotel/employees/registered"; // ή /hotel/clients/registered
+            return "redirect:/hotel/clients/registered";
         } catch (UsernameAlreadyExistsException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "client-form";
+            return "client/client-form";
         }
     }
 
@@ -58,7 +60,7 @@ public class ClientController {
     public String showClientRegistered(Model model) {
         System.out.println("Success Message: " + model.getAttribute("successMessage"));
         model.addAttribute("returnUrl", "/login");
-        return "registration-success";
+        return "pages/registration-success";
     }
 
     @GetMapping("/update/{id}")
@@ -74,7 +76,7 @@ public class ClientController {
         );
 
         model.addAttribute("clientUpdateDTO", updateDTO);
-        return "client-update";
+        return "client/client-update";
     }
 
     @PostMapping("/update")
@@ -84,7 +86,7 @@ public class ClientController {
                                RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "client-update";
+            return "client/client-update";
         }
 
         try{
@@ -93,7 +95,7 @@ public class ClientController {
             return "redirect:/hotel/clients";
         }catch (UsernameAlreadyExistsException | ClientNotFoundException e){
             model.addAttribute("errorMessage", e.getMessage());
-            return "client-update";
+            return "client/client-update";
         }
     }
 
@@ -101,7 +103,7 @@ public class ClientController {
     public String getAllClients(Model model) {
         List<ClientReadOnlyDTO> clients = clientService.getAllClients();
         model.addAttribute("clients", clients);
-        return "client-list";
+        return "client/client-list";
     }
 
     @GetMapping("/delete/{id}")
@@ -121,7 +123,7 @@ public class ClientController {
 
         ClientReadOnlyDTO client = clientService.getClientById(id);
         model.addAttribute("client", client);
-        return "client-details";
+        return "client/client-details";
     }
 
     @GetMapping("/search")
@@ -129,11 +131,20 @@ public class ClientController {
         try {
             ClientReadOnlyDTO client = clientService.getClientByPhone(phone);
             model.addAttribute("clients", List.of(client));
-            return "client-list";
+            return "client/client-list";
         } catch (ClientNotFoundException e) {
             model.addAttribute("errorMessage", "Δεν βρέθηκε πελάτης με αυτό το τηλέφωνο.");
             model.addAttribute("clients", clientService.getAllClients());
-            return "client-list";
+            return "client/client-list";
         }
     }
+
+    @GetMapping("/profile")
+    public String getProfile(Model model, Principal principal) throws ClientNotFoundException {
+        Client client = clientService.findByUsername(principal.getName());
+        ClientReadOnlyDTO clientDTO = clientMapper.mapToClientReadOnlyDTO(client);
+        model.addAttribute("client", clientDTO);
+        return "client/profile";
+    }
+
 }
