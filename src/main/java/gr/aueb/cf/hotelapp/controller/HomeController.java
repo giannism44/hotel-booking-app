@@ -15,4 +15,9 @@ public class HomeController {
     public String about() {
         return "about";
     }
+
+    @GetMapping("/management")
+    public String managementPage() {
+        return "management";
+    }
 }
