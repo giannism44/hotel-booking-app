@@ -1,5 +1,6 @@
 package gr.aueb.cf.hotelapp.controller;
 
+import gr.aueb.cf.hotelapp.core.exceptions.ClientHasReservationsException;
 import gr.aueb.cf.hotelapp.core.exceptions.ClientNotFoundException;
 import gr.aueb.cf.hotelapp.core.exceptions.UsernameAlreadyExistsException;
 import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
@@ -73,7 +74,7 @@ public class ClientController {
         );
 
         model.addAttribute("clientUpdateDTO", updateDTO);
-        return "client-form";
+        return "client-update";
     }
 
     @PostMapping("/update")
@@ -83,7 +84,7 @@ public class ClientController {
                                RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "client-form";
+            return "client-update";
         }
 
         try{
@@ -92,7 +93,7 @@ public class ClientController {
             return "redirect:/hotel/clients";
         }catch (UsernameAlreadyExistsException | ClientNotFoundException e){
             model.addAttribute("errorMessage", e.getMessage());
-            return "client-form";
+            return "client-update";
         }
     }
 
@@ -108,7 +109,7 @@ public class ClientController {
         try {
             clientService.deleteClient(id);
             redirectAttributes.addFlashAttribute("successMessage", "Ο πελάτης διαγράφηκε με επιτυχία.");
-        } catch (ClientNotFoundException e) {
+        } catch (ClientNotFoundException | ClientHasReservationsException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/hotel/clients";
@@ -121,5 +122,18 @@ public class ClientController {
         ClientReadOnlyDTO client = clientService.getClientById(id);
         model.addAttribute("client", client);
         return "client-details";
+    }
+
+    @GetMapping("/search")
+    public String getClientByPhone(@RequestParam("phone") String phone, Model model) {
+        try {
+            ClientReadOnlyDTO client = clientService.getClientByPhone(phone);
+            model.addAttribute("clients", List.of(client));
+            return "client-list";
+        } catch (ClientNotFoundException e) {
+            model.addAttribute("errorMessage", "Δεν βρέθηκε πελάτης με αυτό το τηλέφωνο.");
+            model.addAttribute("clients", clientService.getAllClients());
+            return "client-list";
+        }
     }
 }
