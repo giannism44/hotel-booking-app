@@ -27,7 +27,7 @@ public class EmployeeController {
     public String getEmployeeForm(Model model){
         model.addAttribute("employeeInsertDTO" ,
                 new EmployeeInsertDTO(null,null,null,null));
-        return "employee-form";
+        return "employee/employee-form";
     }
 
     @PostMapping("/insert")
@@ -37,7 +37,7 @@ public class EmployeeController {
                                  RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            return "employee-form";
+            return "employee/employee-form";
         }
 
         try {
@@ -47,7 +47,7 @@ public class EmployeeController {
             return "redirect:/hotel/employees/registered";
         }catch (UsernameAlreadyExistsException e){
             model.addAttribute("errorMessage", e.getMessage());
-            return "employee-form";
+            return "employee/employee-form";
         }
     }
 
@@ -55,7 +55,7 @@ public class EmployeeController {
     public String showEmployeeRegistered(Model model) {
         System.out.println("Success Message: " + model.getAttribute("successMessage"));
         model.addAttribute("returnUrl", "/login");
-        return "registration-success";
+        return "pages/registration-success";
     }
 
 
@@ -71,7 +71,7 @@ public class EmployeeController {
         );
 
         model.addAttribute("employeeUpdateDTO", updateDTO);
-        return "employee-form";
+        return "employee/employee-update";
     }
 
     @PostMapping("/update")
@@ -81,7 +81,7 @@ public class EmployeeController {
                                RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            return "employee-form";
+            return "employee/employee-update";
         }
 
         try {
@@ -90,7 +90,7 @@ public class EmployeeController {
             return "redirect:/hotel/employees";
         }catch (UsernameAlreadyExistsException | EmployeeNotFoundException e){
             model.addAttribute("errorMessage", e.getMessage());
-            return "employee-form";
+            return "employee/employee-update";
         }
     }
 
@@ -98,7 +98,7 @@ public class EmployeeController {
     public String getAllEmployees(Model model) {
         List<EmployeeReadOnlyDTO> employees = employeeService.getAllEmployees();
         model.addAttribute("employees", employees);
-        return "employee-List";
+        return "employee/employee-List";
     }
 
     @GetMapping("/delete/{id}")
@@ -118,6 +118,6 @@ public class EmployeeController {
 
         EmployeeReadOnlyDTO employee = employeeService.getEmployeeById(id);
         model.addAttribute("employee", employee);
-        return "employee-details";
+        return "employee/employee-details";
     }
 }
