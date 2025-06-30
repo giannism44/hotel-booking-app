@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card-profile {
+    background-color: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title {
+    color: #007bff;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+th {
+    width: 250px;
+}
+
+.btn-back {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-back:hover {
+    background-color: #5a6268;
+}
