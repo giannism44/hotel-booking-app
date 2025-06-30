@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Λίστα Πελατών</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div th:if="${errorMessage}" class="alert alert-danger text-center" role="alert" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success text-center" role="alert" th:text="${successMessage}"></div>
+
+    <h2 class="mb-4">Λίστα Πελατών</h2>
+    <form th:action="@{/hotel/clients/search}" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="phone" class="form-control" placeholder="Αναζήτηση με τηλέφωνο..." required>
+            <button class="btn btn-primary" type="submit">Αναζήτηση</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Όνομα</th>
+            <th>Επώνυμο</th>
+            <th>Τηλέφωνο</th>
+            <th>ΑΦΜ</th>
+            <th>Ενεργή Κράτηση</th>
+            <th>Σύνολο Κρατήσεων</th>
+            <th>Ενέργειες</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${clients}">
+            <td th:text="${client.firstname}">Όνομα</td>
+            <td th:text="${client.lastname}">Επώνυμο</td>
+            <td th:text="${client.phone}">Τηλέφωνο</td>
+            <td th:text="${client.vat}">ΑΦΜ</td>
+            <td th:text="${client.hasActiveReservation ? '✅' : '❌'}">Ενεργή</td>
+            <td th:text="${client.totalBookings}">0</td>
+            <td>
+                <a th:href="@{'/hotel/clients/' + ${client.id}}" class="btn btn-info">Προβολή</a>
+                <a th:href="@{'/hotel/clients/update/' + ${client.id}}" class="btn btn-warning">Επεξεργασία</a>
+                <a th:href="@{/hotel/clients/delete/{id}(id=${client.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Είστε σίγουρος;')">Διαγραφή</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/management" class="btn btn-secondary mt-3">Επιστροφή στην Αρχική Σελίδα</a>
+</div>
+</body>
+</html>

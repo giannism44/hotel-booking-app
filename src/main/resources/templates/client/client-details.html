@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="el" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Προβολή Πελάτη</title>
+    <link rel="stylesheet" href="/css/details.css">
+</head>
+<body>
+<div class="card">
+    <h2>Προβολή Στοιχείων Πελάτη</h2>
+
+    <table class="table-view">
+        <tr>
+            <td>Όνομα:</td>
+            <td th:text="${client.firstname}"></td>
+        </tr>
+        <tr>
+            <td>Επώνυμο:</td>
+            <td th:text="${client.lastname}"></td>
+        </tr>
+        <tr>
+            <td>Τηλέφωνο:</td>
+            <td th:text="${client.phone}"></td>
+        </tr>
+        <tr>
+            <td>ΑΦΜ:</td>
+            <td th:text="${client.vat}"></td>
+        </tr>
+        <tr>
+            <td>Username:</td>
+            <td th:text="${client.username}"></td>
+        </tr>
+    </table>
+    <a href="/hotel/clients">Πίσω στη λίστα</a>
+</div>
+</body>
+</html>

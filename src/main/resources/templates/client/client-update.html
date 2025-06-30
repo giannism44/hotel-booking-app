@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="el" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Επεξεργασία Πελάτη</title>
+    <link rel="stylesheet" href="/css/update.css">
+</head>
+<body>
+<h2>Επεξεργασία Πελάτη</h2>
+
+<form th:action="@{/hotel/clients/update}" th:object="${clientUpdateDTO}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <label>Όνομα:</label>
+    <input type="text" th:field="*{firstname}" required/><br>
+
+    <label>Επώνυμο:</label>
+    <input type="text" th:field="*{lastname}" required/><br>
+
+    <label>Τηλέφωνο:</label>
+    <input type="text" th:field="*{phone}" name="phone" required/><br>
+
+    <label>ΑΦΜ:</label>
+    <input type="text" th:field="*{vat}" name="vat" required/><br>
+
+    <button type="submit">Αποθήκευση</button>
+</form>
+
+<a href="/hotel/clients">Πίσω στη λίστα</a>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+        let phone = document.querySelector('input[name="phone"]').value.trim();
+        let vat = document.querySelector('input[name="vat"]').value.trim();
+
+        document.querySelectorAll('.error').forEach(el => el.remove());
+
+        let valid = true;
+
+        if (!/^\d{10}$/.test(phone)) {
+            showError('Το τηλέφωνο πρέπει να έχει ακριβώς 10 ψηφία.', 'phone');
+            valid = false;
+        }
+
+        if (!/^\d{9}$/.test(vat)) {
+            showError('Το ΑΦΜ πρέπει να έχει ακριβώς 9 ψηφία.', 'vat');
+            valid = false;
+        }
+
+        if (!valid) e.preventDefault();
+    });
+
+    function showError(message, fieldName) {
+        const input = document.querySelector(`input[name="${fieldName}"]`);
+        const error = document.createElement('div');
+        error.className = 'error';
+        error.textContent = message;
+        input.insertAdjacentElement('afterend', error);
+    }
+</script>
+</body>
+</html>
