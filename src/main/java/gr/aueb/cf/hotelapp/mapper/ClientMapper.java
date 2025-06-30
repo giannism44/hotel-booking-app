@@ -6,12 +6,14 @@ import gr.aueb.cf.hotelapp.dto.ClientInsertDTO;
 import gr.aueb.cf.hotelapp.dto.ClientReadOnlyDTO;
 import gr.aueb.cf.hotelapp.dto.ClientUpdateDTO;
 import gr.aueb.cf.hotelapp.model.Client;
+import gr.aueb.cf.hotelapp.model.Reservation;
 import gr.aueb.cf.hotelapp.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Mapper για μετατροπή μεταξύ Client entity και DTOs.
@@ -24,12 +26,14 @@ public class ClientMapper {
     private final PasswordEncoder passwordEncoder;
 
     public static ClientReadOnlyDTO mapToClientReadOnlyDTO(Client client) {
-        boolean hasActiveReservation = client.getReservations()
-                .stream()
-                .anyMatch(r ->
-                        r.getStatus() == ReservationStatus.CONFIRMED &&
-                                r.getCheckOut().isAfter(LocalDate.now())
-                );
+        List<Reservation> reservations = client.getReservations();
+
+        boolean hasActiveReservation = reservations != null &&
+                reservations.stream()
+                        .anyMatch(r ->
+                                r.getStatus() == ReservationStatus.CONFIRMED &&
+                                        r.getCheckOut().isAfter(LocalDate.now())
+                        );
 
         int totalBookings = (client.getClientStatus() != null)
                 ? client.getClientStatus().getTotalBookings()
