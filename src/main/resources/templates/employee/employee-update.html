@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="el" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Επεξεργασία Υπαλλήλου</title>
+    <link rel="stylesheet" href="/css/client-update.css">
+</head>
+<body>
+<h2>Επεξεργασία Υπαλλήλου</h2>
+
+<form th:action="@{/hotel/employees/update}" th:object="${employeeUpdateDTO}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <label>Όνομα:</label>
+    <input type="text" th:field="*{firstname}" required/><br>
+
+    <label>Επώνυμο:</label>
+    <input type="text" th:field="*{lastname}" required/><br>
+
+    <button type="submit">Αποθήκευση</button>
+</form>
+
+<a href="/hotel/employees">Πίσω στη λίστα</a>
+
+</body>
+</html>
