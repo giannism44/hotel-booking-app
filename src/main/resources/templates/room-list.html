@@ -23,8 +23,8 @@
                         Ξενοδοχείο
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="hotelDropdown">
-                        <li><a class="dropdown-item" href="/about">Πληροφορίες</a></li>
-                        <li><a class="dropdown-item" href="#">Αξιολόγηση</a></li>
+                        <li><a class="dropdown-item" href="/about">Σχετικά με εμάς</a></li>
+                        <li><a class="dropdown-item" href="#">Αξιολογήστε μας</a></li>
                         <li><a class="dropdown-item" href="https://www.google.com/maps/search/?api=1&query=Aristotelous+Hotel,+Thessaloniki" target="_blank">Τοποθεσία</a></li>
                     </ul>
                 </li>
@@ -44,6 +44,11 @@
                         <span th:text="${#authentication.name}">email@example.com</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/hotel/clients/profile}">
+                                <i class="fas fa-id-card me-2"></i> Προφίλ
+                            </a>
+                        </li>
                         <li>
                             <form th:action="@{/logout}" method="post" class="dropdown-item p-0">
                                 <button type="submit" class="btn btn-link dropdown-item text-danger">
