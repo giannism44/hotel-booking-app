@@ -1,0 +1,37 @@
+.card {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.table-view {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table-view td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.table-view td:first-child {
+    font-weight: bold;
+    width: 35%;
+    background-color: #f6f6f6;
+}
+
+a {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #0053b3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
