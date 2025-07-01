@@ -41,8 +41,4 @@ public class Reservation extends AbstractEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
-
-    @ManyToOne
-    @JoinColumn(name = "created_by_user_id")
-    private User createdBy;
 }

@@ -6,7 +6,6 @@ import gr.aueb.cf.hotelapp.dto.ReservationReadOnlyDTO;
 import gr.aueb.cf.hotelapp.model.Client;
 import gr.aueb.cf.hotelapp.model.Reservation;
 import gr.aueb.cf.hotelapp.model.Room;
-import gr.aueb.cf.hotelapp.model.User;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,13 +28,12 @@ public class ReservationMapper {
         );
     }
 
-    public Reservation mapToReservationEntity(ReservationInsertDTO dto, Room room, Client client, User createdBy) {
+    public Reservation mapToReservationEntity(ReservationInsertDTO dto, Room room, Client client) {
         Reservation reservation = new Reservation();
         reservation.setCheckIn(dto.checkIn());
         reservation.setCheckOut(dto.checkOut());
         reservation.setRoom(room);
         reservation.setClient(client);
-        reservation.setCreatedBy(createdBy);
         reservation.setStatus(ReservationStatus.CONFIRMED);
         return reservation;
     }

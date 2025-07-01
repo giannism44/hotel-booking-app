@@ -29,9 +29,6 @@ public class Employee extends AbstractEntity{
     @Column(nullable = false)
     private String lastname;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    private EmployeeStatus employeeStatus;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;

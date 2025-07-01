@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
 public class ReservationServiceImpl implements IReservationService {
 
     private final ClientStatusRepository clientStatusRepository;
-    private final EmployeeStatusRepository employeeStatusRepository;
     private final ReservationRepository reservationRepository;
     private final RoomRepository roomRepository;
     private final ClientRepository clientRepository;
@@ -59,7 +57,7 @@ public class ReservationServiceImpl implements IReservationService {
                     "Το δωμάτιο είναι ήδη κρατημένο για τις ημερομηνίες που επιλέξατε.");
         }
 
-        Reservation reservation = reservationMapper.mapToReservationEntity(dto, room, client, user);
+        Reservation reservation = reservationMapper.mapToReservationEntity(dto, room, client);
         Reservation saved = reservationRepository.save(reservation);
 
 
@@ -77,24 +75,6 @@ public class ReservationServiceImpl implements IReservationService {
             clientStatus.setDiscountActive(true);
         }
         clientStatusRepository.save(clientStatus);
-
-        employeeRepository.findByUser(user).ifPresent(employee -> {
-            EmployeeStatus status = employeeStatusRepository.findById(employee.getId())
-                    .orElseGet(() -> {
-                        EmployeeStatus es = new EmployeeStatus();
-                        es.setEmployee(employee);
-                        es.setTotalBookings(0);
-                        es.setBonusAwarded(false);
-                        return es;
-                    });
-
-            status.setTotalBookings(status.getTotalBookings() + 1);
-            if (status.getTotalBookings() >= 5) {
-                status.setBonusAwarded(true);
-            }
-
-            employeeStatusRepository.save(status);
-        });
 
         return reservationMapper.mapToReservationReadOnlyDTO(saved);
     }
