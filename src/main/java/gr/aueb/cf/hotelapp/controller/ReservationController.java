@@ -6,6 +6,7 @@ import gr.aueb.cf.hotelapp.core.exceptions.RoomNotAvailableException;
 import gr.aueb.cf.hotelapp.core.exceptions.UserNotFoundException;
 import gr.aueb.cf.hotelapp.dto.ReservationInsertDTO;
 import gr.aueb.cf.hotelapp.dto.ReservationReadOnlyDTO;
+import gr.aueb.cf.hotelapp.dto.RoomReadOnlyDTO;
 import gr.aueb.cf.hotelapp.model.Client;
 import gr.aueb.cf.hotelapp.service.IClientService;
 import gr.aueb.cf.hotelapp.service.IReservationService;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/hotel/reservations")
@@ -37,7 +40,6 @@ public class ReservationController {
         ReservationInsertDTO dto = new ReservationInsertDTO(null, null, null, client.getId());
 
         model.addAttribute("reservationInsertDTO", dto);
-        model.addAttribute("rooms", roomService.getAllRooms());
         return "reservation-form";
     }
 
@@ -48,7 +50,6 @@ public class ReservationController {
                                     RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("rooms", roomService.getAllRooms());
             return "reservation-form";
         }
 
@@ -58,7 +59,6 @@ public class ReservationController {
             return "redirect:/hotel/reservations/success";
         } catch (UserNotFoundException | RoomNotAvailableException | ClientNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("rooms", roomService.getAllRooms());
             return "reservation-form";
         }
     }
@@ -94,6 +94,25 @@ public class ReservationController {
             model.addAttribute("successMessage", "Η κράτηση ολοκληρώθηκε επιτυχώς!");
         }
         model.addAttribute("returnUrl", "/");
-        return "registration-success";
+        return "pages/registration-success";
+    }
+
+    @GetMapping("/availability")
+    public String showAvailabilityForm(Model model) {
+        model.addAttribute("checkIn", null);
+        model.addAttribute("checkOut", null);
+        return "reservation-availability";
+    }
+
+    @GetMapping("/available-rooms")
+    @ResponseBody
+    public List<RoomReadOnlyDTO> getAvailableRoomsForDatesAjax(
+            @RequestParam("checkIn") String checkInStr,
+            @RequestParam("checkOut") String checkOutStr) {
+
+        LocalDate checkIn = LocalDate.parse(checkInStr);
+        LocalDate checkOut = LocalDate.parse(checkOutStr);
+
+        return roomService.getAvailableRoomsForDates(checkIn, checkOut);
     }
 }
