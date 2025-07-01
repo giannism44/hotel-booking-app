@@ -9,6 +9,7 @@ import gr.aueb.cf.hotelapp.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,20 +27,9 @@ public class RoomServiceImpl implements IRoomService {
 
         existingRoom.setRoomType(dto.roomType());
         existingRoom.setPrice(dto.price());
-        existingRoom.setIsAvailable(dto.isAvailable());
 
         Room updatedRoom = roomRepository.save(existingRoom);
         return roomMapper.mapToRoomReadOnlyDTO(updatedRoom);
-    }
-
-    @Override
-    public void disableRoom(Long id)
-            throws RoomNotFoundException {
-        Room room = roomRepository.findById(id)
-                .orElseThrow(() -> new RoomNotFoundException("Room", "Το δωμάτιο με id " + id + " δεν βρέθηκε."));
-
-        room.setIsAvailable(false);
-        roomRepository.save(room);
     }
 
     @Override
@@ -57,5 +47,19 @@ public class RoomServiceImpl implements IRoomService {
 
         return roomMapper.mapToRoomReadOnlyDTO(room);
     }
+
+    @Override
+    public List<RoomReadOnlyDTO> getAvailableRoomsForDates(LocalDate checkIn, LocalDate checkOut) {
+        return roomRepository.findAll().stream()
+                .filter(room -> {
+                    return room.getReservations().stream().noneMatch(reservation ->
+                            !reservation.getCheckOut().isBefore(checkIn) &&
+                                    !reservation.getCheckIn().isAfter(checkOut)
+                    );
+                })
+                .map(roomMapper::mapToRoomReadOnlyDTO)
+                .toList();
+    }
+
 }
 
