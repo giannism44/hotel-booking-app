@@ -32,12 +32,11 @@ public class RoomController {
         RoomUpdateDTO updateDTO = new RoomUpdateDTO(
                 readOnlyDTO.id(),
                 readOnlyDTO.roomType(),
-                readOnlyDTO.price(),
-                readOnlyDTO.isAvailable()
+                readOnlyDTO.price()
         );
 
         model.addAttribute("roomUpdateDTO", updateDTO);
-        return "room-form";
+        return "room-update";
     }
 
     @PostMapping("/update")
@@ -47,35 +46,31 @@ public class RoomController {
                              RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            return "room-form";
+            return "room-update";
         }
 
         try {
             RoomReadOnlyDTO updateRoom = roomService.updateRoom(roomUpdateDTO);
             redirectAttributes.addFlashAttribute("room", updateRoom);
-            return "redirect:/hotel/rooms";
+            return "redirect:/hotel/rooms/management/rooms";
         }catch (RoomNotFoundException e){
             model.addAttribute("errorMessage", e.getMessage());
-            return "room-form";
+            return "room-update";
         }
-    }
-
-    @GetMapping("/disable/{id}")
-    public String disableRoom(@PathVariable Long id, RedirectAttributes redirectAttributes){
-        try {
-            roomService.disableRoom(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Το δωμάτιο δεν είναι διαθέσιμο");
-        }catch (RoomNotFoundException e){
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        }
-        return "redirect:/hotel/rooms";
     }
 
     @GetMapping("")
     public String getAllRooms(Model model){
         List<RoomReadOnlyDTO> rooms = roomService.getAllRooms();
         model.addAttribute("rooms", rooms);
-        return "room-List";
+        return "room-list";
+    }
+
+    @GetMapping("/management/rooms")
+    public String getRoomsForManagement(Model model) {
+        List<RoomReadOnlyDTO> rooms = roomService.getAllRooms();
+        model.addAttribute("rooms", rooms);
+        return "room-management-list";
     }
 
     @GetMapping("/{id}")
