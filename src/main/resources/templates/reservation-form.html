@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Κράτηση | Aristotelous Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" th:href="@{/css/reservation.css}">
+</head>
+<body>
+<div class="hero">
+    <div class="hero-overlay"></div>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="form-container text-white">
+            <h3 class="mb-4 text-center">Κράτηση Δωματίου</h3>
+
+            <form th:action="@{/hotel/reservations/insert}" th:object="${reservationInsertDTO}" method="post">
+
+                <div class="mb-3">
+                    <label for="dateRange" class="form-label">Ημερομηνίες Διαμονής</label>
+                    <input id="dateRange" class="form-control" placeholder="Επιλέξτε εύρος ημερομηνιών">
+                    <input type="hidden" th:field="*{checkIn}" id="checkIn">
+                    <input type="hidden" th:field="*{checkOut}" id="checkOut">
+                </div>
+
+                <div class="mb-3">
+                    <label for="roomId" class="form-label">Επιλογή Δωματίου</label>
+                    <select th:field="*{roomId}" class="form-select" id="roomId" required>
+                        <option value="">Επιλέξτε ημερομηνίες πρώτα...</option>
+                    </select>
+                </div>
+
+                <input type="hidden" th:field="*{clientId}" />
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-warning px-4">Ολοκλήρωση Κράτησης</button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a href="/hotel/rooms" class="btn btn-outline-light">Πίσω στα Δωμάτια</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/gr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    flatpickr("#dateRange", {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        locale: "gr",
+        minDate: "today",
+        onChange: function(selectedDates) {
+            if (selectedDates.length === 2) {
+                const checkIn = selectedDates[0].toISOString().split('T')[0];
+                const checkOut = selectedDates[1].toISOString().split('T')[0];
+
+                document.getElementById("checkIn").value = checkIn;
+                document.getElementById("checkOut").value = checkOut;
+
+                fetch(`/hotel/reservations/available-rooms?checkIn=${checkIn}&checkOut=${checkOut}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const select = document.getElementById("roomId");
+                        select.innerHTML = "";
+
+                        if (data.length === 0) {
+                            const opt = document.createElement("option");
+                            opt.text = "Δεν υπάρχουν διαθέσιμα δωμάτια.";
+                            opt.disabled = true;
+                            opt.selected = true;
+                            select.add(opt);
+                        } else {
+                            const defaultOpt = document.createElement("option");
+                            defaultOpt.text = "Επιλέξτε Δωμάτιο";
+                            defaultOpt.disabled = true;
+                            defaultOpt.selected = true;
+                            select.add(defaultOpt);
+
+                            data.forEach(room => {
+                                const option = document.createElement("option");
+                                option.value = room.id;
+                                option.text = `${room.roomNumber} - ${room.roomType} (${room.price}€)`;
+                                select.add(option);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Σφάλμα κατά τη φόρτωση δωματίων:", error);
+                    });
+            }
+        }
+    });
+</script>
+</body>
+</html>
