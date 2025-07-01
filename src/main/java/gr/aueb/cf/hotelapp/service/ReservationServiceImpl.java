@@ -105,7 +105,6 @@ public class ReservationServiceImpl implements IReservationService {
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation", "Η κράτηση με id: " + id + " δεν βρέθηκε"));
 
         Room room = reservation.getRoom();
-        room.setIsAvailable(true);
         roomRepository.save(room);
 
         reservationRepository.deleteById(id);

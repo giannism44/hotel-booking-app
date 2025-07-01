@@ -35,10 +35,6 @@ public class Room extends AbstractEntity{
 
     private Double price;
 
-    @Getter
-    @Column(name = "is_available")
-    private Boolean isAvailable;
-
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
 }

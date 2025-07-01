@@ -15,8 +15,6 @@ public record RoomUpdateDTO(
 
         @NotNull(message = "Η τιμή είναι υποχρεωτική")
         @DecimalMin(value = "0.0", inclusive = false, message = "Η τιμή πρέπει να είναι θετική")
-        Double price,
-
-        Boolean isAvailable
+        Double price
 ) {}
 

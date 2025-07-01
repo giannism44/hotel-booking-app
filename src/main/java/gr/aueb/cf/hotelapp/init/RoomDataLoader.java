@@ -38,9 +38,9 @@ public class RoomDataLoader {
                         room.setPrice(75.0);
                     }
 
-                    room.setIsAvailable(true);
+
                     roomRepository.save(room);
-//                }
+//              }
             }
         }
     }

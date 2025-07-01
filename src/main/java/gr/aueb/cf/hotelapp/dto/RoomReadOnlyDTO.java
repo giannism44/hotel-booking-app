@@ -6,7 +6,6 @@ public record RoomReadOnlyDTO(
         Long id,
         String roomNumber,
         RoomType roomType,
-        Double price,
-        Boolean isAvailable
+        Double price
 ) {}
 

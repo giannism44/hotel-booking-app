@@ -17,8 +17,7 @@ public class RoomMapper {
                 room.getId(),
                 room.getRoomNumber(),
                 room.getRoomType(),
-                room.getPrice(),
-                room.getIsAvailable()
+                room.getPrice()
         );
     }
 
@@ -27,7 +26,6 @@ public class RoomMapper {
         room.setId(dto.id());
         room.setRoomType(dto.roomType());
         room.setPrice(dto.price());
-        room.setIsAvailable(dto.isAvailable());
         return room;
     }
 }
