@@ -32,4 +32,14 @@ public class HomeController {
     public String login(Principal principal) {
         return (principal == null) ? "pages/loginb" : "redirect:/dashboard";
     }
+
+    @GetMapping("/spa")
+    public String spa() {
+        return "pages/spa";
+    }
+
+    @GetMapping("/restaurant")
+    public String restaurant() {
+        return "pages/restaurant";
+    }
 }
