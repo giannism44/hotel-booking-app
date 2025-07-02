@@ -72,7 +72,7 @@ public class ReservationController {
         } catch (ReservationNotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/hotel/reservations";
+        return "redirect:/hotel/reservations/management/reservation";
     }
 
     @GetMapping("")
@@ -114,5 +114,12 @@ public class ReservationController {
         LocalDate checkOut = LocalDate.parse(checkOutStr);
 
         return roomService.getAvailableRoomsForDates(checkIn, checkOut);
+    }
+
+    @GetMapping("/management/reservation")
+    public String getRoomsForManagement(Model model) {
+        List<ReservationReadOnlyDTO> reservation = reservationService.getAllReservations();
+        model.addAttribute("reservations", reservation);
+        return "reservation-management-list";
     }
 }
