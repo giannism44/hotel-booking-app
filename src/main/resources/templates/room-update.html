@@ -18,7 +18,12 @@
 
                 <div class="mb-3">
                     <label class="form-label">Τύπος Δωματίου</label>
-                    <input type="text" th:field="*{roomType}" class="form-control" required>
+                    <select th:field="*{roomType}" class="form-control" required>
+                        <option th:each="type : ${T(gr.aueb.cf.hotelapp.core.enums.RoomType).values()}"
+                                th:value="${type}"
+                                th:text="${type}">
+                        </option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
@@ -27,7 +32,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="/hotel/management/rooms" class="btn btn-secondary">Πίσω</a>
+                    <a href="/hotel/rooms/management/rooms" class="btn btn-secondary">Πίσω</a>
                     <button type="submit" class="btn btn-success">Αποθήκευση</button>
                 </div>
 
