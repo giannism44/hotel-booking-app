@@ -12,13 +12,56 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Aristotelous Hotel</a>
+        <a class="navbar-brand" href="/">Ξενοδοχείο Αριστοτέλους</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="hotelDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ξενοδοχείο
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="hotelDropdown">
+                        <li><a class="dropdown-item" href="/about">Σχετικά με εμάς</a></li>
+                        <li><a class="dropdown-item" href="https://www.google.com/maps/search/?api=1&query=Aristotelous+Hotel,+Thessaloniki" target="_blank">Τοποθεσία</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/hotel/rooms">Δωμάτια</a>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" href="/spa">Σπα</a></li>
+                <li class="nav-item"><a class="nav-link" href="/restaurant">Εστιατόριο</a></li>
+            </ul>
+
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>
+                        <span th:text="${#authentication.name}">email@example.com</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/hotel/clients/profile}">
+                                <i class="fas fa-id-card me-2"></i> Προφίλ
+                            </a>
+                        </li>
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="dropdown-item p-0">
+                                <button type="submit" class="btn btn-link dropdown-item text-danger">
+                                    <i class="fas fa-door-open me-2"></i> Αποσύνδεση
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
-
 <div class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content text-white text-center">
