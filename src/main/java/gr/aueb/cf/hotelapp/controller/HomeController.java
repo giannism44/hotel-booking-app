@@ -20,7 +20,7 @@ public class HomeController {
 
     @GetMapping("/management")
     public String managementPage() {
-        return "management";
+        return "pages/management";
     }
 
     @GetMapping("/register")
