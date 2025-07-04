@@ -40,7 +40,7 @@ public class ReservationController {
         ReservationInsertDTO dto = new ReservationInsertDTO(null, null, null, client.getId());
 
         model.addAttribute("reservationInsertDTO", dto);
-        return "reservation-form";
+        return "reservation/reservation-form";
     }
 
     @PostMapping("/insert")
@@ -50,7 +50,7 @@ public class ReservationController {
                                     RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "reservation-form";
+            return "reservation/reservation-form";
         }
 
         try {
@@ -59,7 +59,7 @@ public class ReservationController {
             return "redirect:/hotel/reservations/success";
         } catch (UserNotFoundException | RoomNotAvailableException | ClientNotFoundException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "reservation-form";
+            return "reservation/reservation-form";
         }
     }
 
@@ -75,17 +75,11 @@ public class ReservationController {
         return "redirect:/hotel/reservations/management/reservation";
     }
 
-    @GetMapping("")
-    public String getAllReservations(Model model) {
-        model.addAttribute("reservations", reservationService.getAllReservations());
-        return "reservation-list";
-    }
-
     @GetMapping("/{id}")
     public String getReservationById(@PathVariable Long id, Model model) throws ReservationNotFoundException {
         ReservationReadOnlyDTO reservation = reservationService.getReservationById(id);
         model.addAttribute("reservation", reservation);
-        return "reservation-details";
+        return "reservation/reservation-details";
     }
 
     @GetMapping("/success")
@@ -95,13 +89,6 @@ public class ReservationController {
         }
         model.addAttribute("returnUrl", "/");
         return "pages/registration-success";
-    }
-
-    @GetMapping("/availability")
-    public String showAvailabilityForm(Model model) {
-        model.addAttribute("checkIn", null);
-        model.addAttribute("checkOut", null);
-        return "reservation-availability";
     }
 
     @GetMapping("/available-rooms")
@@ -117,9 +104,9 @@ public class ReservationController {
     }
 
     @GetMapping("/management/reservation")
-    public String getRoomsForManagement(Model model) {
+    public String getReservationsForManagement(Model model) {
         List<ReservationReadOnlyDTO> reservation = reservationService.getAllReservations();
         model.addAttribute("reservations", reservation);
-        return "reservation-management-list";
+        return "reservation/reservation-management-list";
     }
 }
