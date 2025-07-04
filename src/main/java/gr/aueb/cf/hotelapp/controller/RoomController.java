@@ -36,7 +36,7 @@ public class RoomController {
         );
 
         model.addAttribute("roomUpdateDTO", updateDTO);
-        return "room-update";
+        return "room/room-update";
     }
 
     @PostMapping("/update")
@@ -46,7 +46,7 @@ public class RoomController {
                              RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            return "room-update";
+            return "room/room-update";
         }
 
         try {
@@ -55,7 +55,7 @@ public class RoomController {
             return "redirect:/hotel/rooms/management/rooms";
         }catch (RoomNotFoundException e){
             model.addAttribute("errorMessage", e.getMessage());
-            return "room-update";
+            return "room/room-update";
         }
     }
 
@@ -63,23 +63,13 @@ public class RoomController {
     public String getAllRooms(Model model){
         List<RoomReadOnlyDTO> rooms = roomService.getAllRooms();
         model.addAttribute("rooms", rooms);
-        return "room-list";
+        return "room/room-list";
     }
 
     @GetMapping("/management/rooms")
     public String getRoomsForManagement(Model model) {
         List<RoomReadOnlyDTO> rooms = roomService.getAllRooms();
         model.addAttribute("rooms", rooms);
-        return "room-management-list";
+        return "room/room-management-list";
     }
-
-    @GetMapping("/{id}")
-    public String getRoomById(@PathVariable Long id, Model model)
-            throws RoomNotFoundException {
-
-        RoomReadOnlyDTO room = roomService.getRoomById(id);
-        model.addAttribute("room", room);
-        return "room-details";
-    }
-
 }
