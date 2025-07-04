@@ -64,7 +64,7 @@ public class ReservationController {
     }
 
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/management/delete/{id}")
     public String deleteReservation(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             reservationService.deleteReservation(id);
