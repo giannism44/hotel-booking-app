@@ -16,7 +16,7 @@ body {
 }
 
 .hero {
-  background: url('/images/hotel.jpg') no-repeat center center;
+  background: url('/images/restaurant-space2.jpg') no-repeat center center;
   background-size: cover;
   flex: 1;
   position: relative;
