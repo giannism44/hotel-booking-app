@@ -22,18 +22,29 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "/register", "/public/**").permitAll()
-                        .requestMatchers("/images/**", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/about", "/hotel/employees/registered", "/hotel/clients/registered").permitAll()
-                        .requestMatchers("/hotel/clients/insert", "/hotel/clients/insert/**").permitAll()
-                        .requestMatchers("/hotel/employees/insert").permitAll()
-                        .requestMatchers("/hotel/rooms/**").permitAll()
-                        .requestMatchers("/hotel/clients/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_EMPLOYEE")
+                        .requestMatchers("/", "/login", "/register", "/about", "/spa", "/restaurant").permitAll()
+                        .requestMatchers("/images/**", "/css/**", "/js/**", "/public/**").permitAll()
+
+                        //Clients
+                        .requestMatchers("/hotel/clients/insert", "/hotel/clients/insert/**", "/hotel/clients/registered").permitAll()
+                        .requestMatchers("/hotel/clients/profile").hasAuthority("ROLE_CLIENT")
+                        .requestMatchers("/hotel/clients/**", "/management").hasAuthority("ROLE_EMPLOYEE")
+
+                        //Employees
+                        .requestMatchers("/hotel/employees/insert", "/hotel/employees/registered").permitAll()
                         .requestMatchers("/hotel/employees/**").hasAuthority("ROLE_EMPLOYEE")
-                        .requestMatchers("/hotel/reservations/**").authenticated()
+
+                        //Reservations
+                        .requestMatchers("/hotel/reservations/success").permitAll()
+                        .requestMatchers("/hotel/reservations/insert", "/hotel/reservations/available-rooms", "/hotel/reservations/{id}").hasAnyAuthority("ROLE_CLIENT", "ROLE_EMPLOYEE")
+                        .requestMatchers("/hotel/reservations/management/**").hasAuthority("ROLE_EMPLOYEE")
+
+                        //Rooms
+                        .requestMatchers("/hotel/rooms").permitAll()
+                        .requestMatchers("/hotel/rooms/management/**", "/hotel/rooms/update/**").hasAuthority("ROLE_EMPLOYEE")
+
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .successHandler(successHandler)
