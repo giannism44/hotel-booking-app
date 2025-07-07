@@ -7,6 +7,14 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * RoomDataLoader δημιουργεί αυτόματα 50 δωμάτια κατά την εκκίνηση της εφαρμογής,
+ * αν η βάση δεν περιέχει ήδη δεδομένα.
+ * Τα δωμάτια κατανέμονται σε 5 ορόφους με διαφορετικό τύπο και τιμή:
+ * - Όροφοι 1-2: SINGLE (75€)
+ * - Όροφοι 3-4: DOUBLE (100€)
+ * - Όροφος 5: SUITE (150€)
+ */
 @Component
 @RequiredArgsConstructor
 public class RoomDataLoader {

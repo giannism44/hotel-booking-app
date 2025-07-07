@@ -28,6 +28,7 @@ public class ClientMapper {
     public static ClientReadOnlyDTO mapToClientReadOnlyDTO(Client client) {
         List<Reservation> reservations = client.getReservations();
 
+        // Ελέγχει αν υπάρχει τουλάχιστον μία ενεργή κράτηση για τον πελάτη
         boolean hasActiveReservation = reservations != null &&
                 reservations.stream()
                         .anyMatch(r ->
@@ -35,6 +36,7 @@ public class ClientMapper {
                                         r.getCheckOut().isAfter(LocalDate.now())
                         );
 
+        // Παίρνει το σύνολο κρατήσεων από το ClientStatus (αν υπάρχει), αλλιώς επιστρέφει 0
         int totalBookings = (client.getClientStatus() != null)
                 ? client.getClientStatus().getTotalBookings()
                 : 0;
