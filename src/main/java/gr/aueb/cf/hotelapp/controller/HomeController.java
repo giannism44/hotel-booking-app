@@ -30,7 +30,7 @@ public class HomeController {
 
     @GetMapping("/login")
     public String login(Principal principal) {
-        return (principal == null) ? "pages/loginb" : "redirect:/dashboard";
+        return (principal == null) ? "pages/loginb" : "redirect:/";
     }
 
     @GetMapping("/spa")
