@@ -22,25 +22,6 @@ A Spring Boot web application for managing a hotel. It supports user registratio
     - Lombok
     - Gradle
 
- 📁 Project Structure
-       src
-     ├── main
-     │   ├── java/gr/aueb/cf/hotelapp
-     │   │    ├── authentication
-     │   │    ├── controller
-     │   │    ├── core
-     │   │    ├── dto
-     │   │    ├── init
-     │   │    ├── mapper
-     │   │    ├── model
-     │   │    ├── repository
-     │   │    └── service
-     │   └── resources
-     │        ├── static
-     │        ├── templates
-     │        └── application.properties
-     └── test
-
 🚀 How to Run (Build & Deploy)
    1. Clone the Repository
         git clone https://github.com/giannism44/hotel-booking-app.git
@@ -48,9 +29,9 @@ A Spring Boot web application for managing a hotel. It supports user registratio
         
    2. Configure Database
          In src/main/resources/application.properties, set your MySQL credentials:
-           spring.datasource.url=jdbc:mysql://localhost:3306/hotelapp
-           spring.datasource.username=your_user
-           spring.datasource.password=your_password
+           spring.datasource.url=jdbc:mysql://localhost:3306/hotelapp?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Europe/Athens
+           spring.datasource.username=hoteluser
+           spring.datasource.password=12345
          Make sure MySQL is running and a database named hotelapp exists (Spring Boot can auto-create tables).
         
    3. Build the Project
@@ -60,7 +41,7 @@ A Spring Boot web application for managing a hotel. It supports user registratio
   4. Run the Application
     ./gradlew bootrun
      Then open your browser:
-      http://localhost:8000/
+      http://localhost:8080/
          
 🗖️ Default Access
     After registration:
@@ -76,7 +57,7 @@ A Spring Boot web application for managing a hotel. It supports user registratio
         -  /hotel/reservations/management/** - Employee only
     
 📈 Επιπλέον Δυνατότητες   
-    - AJAX έλεγχος διαθεσιμότητας δωματίων σε κρατήσεις
+    - AJAX room availability check during reservations
 
 ✉️ Author
     Giannis M.
