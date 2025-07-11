@@ -106,7 +106,6 @@ After registration:
 
 - AJAX room availability check on reservation form
 - Clients receive a 5% discount after 3 bookings
-- Employees receive a bonus after 5 bookings
 
 ---
 
